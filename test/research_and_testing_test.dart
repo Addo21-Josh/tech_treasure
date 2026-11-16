@@ -146,15 +146,28 @@ void main() {
     );
 
     // Verify records exist
-    expect((await sourceRepo.getSourcesForTreasure('cascade_tr')).valueOrNull!.length, 1);
-    expect((await testRepo.getTestsForTreasure('cascade_tr')).valueOrNull!.length, 1);
+    expect(
+      (await sourceRepo.getSourcesForTreasure(
+        'cascade_tr',
+      )).valueOrNull!.length,
+      1,
+    );
+    expect(
+      (await testRepo.getTestsForTreasure('cascade_tr')).valueOrNull!.length,
+      1,
+    );
 
     // Delete parent treasure
     await treasureRepo.deleteTreasure('cascade_tr');
 
     // Verify cascading deletion cleaned up children
-    expect((await sourceRepo.getSourcesForTreasure('cascade_tr')).valueOrNull!, isEmpty);
-    expect((await testRepo.getTestsForTreasure('cascade_tr')).valueOrNull!, isEmpty);
+    expect(
+      (await sourceRepo.getSourcesForTreasure('cascade_tr')).valueOrNull!,
+      isEmpty,
+    );
+    expect(
+      (await testRepo.getTestsForTreasure('cascade_tr')).valueOrNull!,
+      isEmpty,
+    );
   });
 }
-

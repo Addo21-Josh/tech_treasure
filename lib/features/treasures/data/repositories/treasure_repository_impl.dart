@@ -24,12 +24,20 @@ class TreasureRepositoryImpl implements TreasureRepository {
   }
 
   @override
-  Future<Result<List<TreasureEntity>, Failure>> getTreasures({TreasureFilter? filter}) async {
+  Future<Result<List<TreasureEntity>, Failure>> getTreasures({
+    TreasureFilter? filter,
+  }) async {
     try {
       final rows = await _dao.getTreasures(filter: filter);
       return Success(rows.map(_mapToEntity).toList());
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to query treasures: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to query treasures: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -42,12 +50,20 @@ class TreasureRepositoryImpl implements TreasureRepository {
       }
       return Success(_mapToEntity(item));
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to fetch treasure: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to fetch treasure: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   @override
-  Future<Result<String, Failure>> createTreasure(TreasureEntity treasure) async {
+  Future<Result<String, Failure>> createTreasure(
+    TreasureEntity treasure,
+  ) async {
     try {
       final now = DateTime.now();
       final id = treasure.id.isNotEmpty ? treasure.id : _uuid.v4();
@@ -80,7 +96,13 @@ class TreasureRepositoryImpl implements TreasureRepository {
       await _dao.insertTreasure(companion);
       return Success(id);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to create treasure: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to create treasure: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -114,7 +136,13 @@ class TreasureRepositoryImpl implements TreasureRepository {
       await _dao.updateTreasure(companion);
       return const Success(null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to update treasure: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to update treasure: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -124,7 +152,13 @@ class TreasureRepositoryImpl implements TreasureRepository {
       await _dao.deleteTreasure(id);
       return const Success(null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to delete treasure: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to delete treasure: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -134,17 +168,32 @@ class TreasureRepositoryImpl implements TreasureRepository {
       final newFavoriteStatus = await _dao.toggleFavorite(id);
       return Success(newFavoriteStatus);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to toggle favorite: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to toggle favorite: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   @override
-  Future<Result<void, Failure>> updateStatus(String id, TreasureStatus status) async {
+  Future<Result<void, Failure>> updateStatus(
+    String id,
+    TreasureStatus status,
+  ) async {
     try {
       await _dao.updateStatus(id, status.name);
       return const Success(null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to update status: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to update status: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -154,7 +203,13 @@ class TreasureRepositoryImpl implements TreasureRepository {
       final counts = await _dao.getStatusCounts();
       return Success(counts);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to get status counts: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to get status counts: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -169,17 +224,31 @@ class TreasureRepositoryImpl implements TreasureRepository {
       final total = await _dao.getTotalCount();
       return Success(total);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to fetch total count: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to fetch total count: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   @override
-  Future<Result<List<TreasureEntity>, Failure>> searchTreasures(String queryText) async {
+  Future<Result<List<TreasureEntity>, Failure>> searchTreasures(
+    String queryText,
+  ) async {
     try {
       final rows = await _dao.searchTreasures(queryText);
       return Success(rows.map(_mapToEntity).toList());
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to perform search: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to perform search: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -228,4 +297,3 @@ class TreasureRepositoryImpl implements TreasureRepository {
     );
   }
 }
-

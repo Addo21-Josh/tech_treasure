@@ -62,10 +62,11 @@ void main() {
     await treasureRepo.createTreasure(treasure);
 
     // Set tags
-    final setTagsResult = await tagRepo.setTagsForTreasure(
-      'tr_tag_test',
-      ['#whatsapp', 'storage', '#offline'],
-    );
+    final setTagsResult = await tagRepo.setTagsForTreasure('tr_tag_test', [
+      '#whatsapp',
+      'storage',
+      '#offline',
+    ]);
     expect(setTagsResult.isSuccess, isTrue);
 
     // Retrieve tags
@@ -73,7 +74,10 @@ void main() {
     expect(tagsResult.isSuccess, isTrue);
     final tags = tagsResult.valueOrNull!;
     expect(tags.length, 3);
-    expect(tags.map((t) => t.name).toList(), containsAll(['#whatsapp', '#storage', '#offline']));
+    expect(
+      tags.map((t) => t.name).toList(),
+      containsAll(['#whatsapp', '#storage', '#offline']),
+    );
   });
 
   test('Performs search query matching title and short description', () async {
@@ -96,4 +100,3 @@ void main() {
     expect(results.first.title, 'Android Phone as Trackpad');
   });
 }
-

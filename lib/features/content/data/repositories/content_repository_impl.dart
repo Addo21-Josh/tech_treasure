@@ -17,16 +17,26 @@ class ContentRepositoryImpl implements ContentRepository {
 
   @override
   Stream<ContentEntity?> watchContentForTreasure(String treasureId) {
-    return _dao.watchContentForTreasure(treasureId).map((row) => row != null ? _mapContent(row) : null);
+    return _dao
+        .watchContentForTreasure(treasureId)
+        .map((row) => row != null ? _mapContent(row) : null);
   }
 
   @override
-  Future<Result<ContentEntity?, Failure>> getContentForTreasure(String treasureId) async {
+  Future<Result<ContentEntity?, Failure>> getContentForTreasure(
+    String treasureId,
+  ) async {
     try {
       final row = await _dao.getContentForTreasure(treasureId);
       return Success(row != null ? _mapContent(row) : null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to load content for treasure: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to load content for treasure: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -55,22 +65,35 @@ class ContentRepositoryImpl implements ContentRepository {
       await _dao.upsertContent(companion);
       return Success(id);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to save content: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure('Failed to save content: $e', cause: e, stackTrace: st),
+      );
     }
   }
 
   @override
-  Future<Result<void, Failure>> updateContentStatus(String contentId, String status) async {
+  Future<Result<void, Failure>> updateContentStatus(
+    String contentId,
+    String status,
+  ) async {
     try {
       await _dao.updateStatus(contentId, status, DateTime.now());
       return const Success(null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to update content status: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to update content status: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   @override
-  Future<Result<String, Failure>> recordMetrics(ContentMetricsEntity metrics) async {
+  Future<Result<String, Failure>> recordMetrics(
+    ContentMetricsEntity metrics,
+  ) async {
     try {
       final id = metrics.id.isNotEmpty ? metrics.id : _uuid.v4();
       final companion = ContentMetricsCompanion.insert(
@@ -89,22 +112,34 @@ class ContentRepositoryImpl implements ContentRepository {
       await _dao.insertMetric(companion);
       return Success(id);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to record metrics: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to record metrics: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   @override
   Stream<List<ContentMetricsEntity>> watchMetricsForContent(String contentId) {
-    return _dao.watchMetrics(contentId).map((rows) => rows.map(_mapMetric).toList());
+    return _dao
+        .watchMetrics(contentId)
+        .map((rows) => rows.map(_mapMetric).toList());
   }
 
   @override
-  Future<Result<List<ContentMetricsEntity>, Failure>> getMetricsForContent(String contentId) async {
+  Future<Result<List<ContentMetricsEntity>, Failure>> getMetricsForContent(
+    String contentId,
+  ) async {
     try {
       final rows = await _dao.getMetrics(contentId);
       return Success(rows.map(_mapMetric).toList());
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to get metrics: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure('Failed to get metrics: $e', cause: e, stackTrace: st),
+      );
     }
   }
 
@@ -114,7 +149,13 @@ class ContentRepositoryImpl implements ContentRepository {
       await _dao.deleteContent(id);
       return const Success(null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to delete content: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to delete content: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -156,4 +197,3 @@ class ContentRepositoryImpl implements ContentRepository {
     );
   }
 }
-

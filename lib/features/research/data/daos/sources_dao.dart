@@ -28,4 +28,3 @@ class SourcesDao {
     return (db.delete(db.sources)..where((s) => s.id.equals(id))).go();
   }
 }
-

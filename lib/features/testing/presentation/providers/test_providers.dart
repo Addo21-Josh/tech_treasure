@@ -15,8 +15,8 @@ final testRepositoryProvider = Provider<TestRepository>((ref) {
   return TestRepositoryImpl(dao);
 });
 
-final testsStreamProvider = StreamProvider.family<List<TestRecordEntity>, String>((ref, treasureId) {
-  final repo = ref.watch(testRepositoryProvider);
-  return repo.watchTestsForTreasure(treasureId);
-});
-
+final testsStreamProvider =
+    StreamProvider.family<List<TestRecordEntity>, String>((ref, treasureId) {
+      final repo = ref.watch(testRepositoryProvider);
+      return repo.watchTestsForTreasure(treasureId);
+    });

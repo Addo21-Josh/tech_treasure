@@ -35,7 +35,8 @@ const List<DefaultCategoryItem> kDefaultCategories = [
   DefaultCategoryItem(
     id: 'cat_phone_pc',
     name: 'Phone + PC',
-    description: 'Cross-device integration, wireless mouse, file sharing & casting',
+    description:
+        'Cross-device integration, wireless mouse, file sharing & casting',
     icon: 'devices',
   ),
   DefaultCategoryItem(
@@ -69,4 +70,3 @@ const List<DefaultCategoryItem> kDefaultCategories = [
     icon: 'category',
   ),
 ];
-

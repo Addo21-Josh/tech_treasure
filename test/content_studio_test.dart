@@ -34,9 +34,14 @@ void main() {
     final treasure = TreasureEntity(
       id: 't-content-1',
       title: 'WhatsApp Silent Voice Notes',
-      shortDescription: 'Play voice notes without holding phone to ear or disturbing others.',
+      shortDescription:
+          'Play voice notes without holding phone to ear or disturbing others.',
       categoryId: 'cat_phone_tricks',
-      steps: const ['Open chat', 'Hold phone to ear', 'Sensor routes audio to earpiece'],
+      steps: const [
+        'Open chat',
+        'Hold phone to ear',
+        'Sensor routes audio to earpiece',
+      ],
       contentPotential: 5,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
@@ -49,9 +54,12 @@ void main() {
       treasureId: treasure.id,
       contentType: ContentType.youtubeShort,
       hook: 'Stop playing voice notes on loudspeaker in public!',
-      problem: 'Everyone around you hears your private messages and personal drama.',
-      demonstration: 'Just raise your phone to your ear like a normal call. The proximity sensor automatically switches audio from speaker to earpiece!',
-      script: 'Stop playing voice notes on loudspeaker in public! Everyone around you hears your private messages. Just raise your phone to your ear like a phone call. The proximity sensor automatically switches audio to earpiece. Follow for more hidden tech tricks!',
+      problem:
+          'Everyone around you hears your private messages and personal drama.',
+      demonstration:
+          'Just raise your phone to your ear like a normal call. The proximity sensor automatically switches audio from speaker to earpiece!',
+      script:
+          'Stop playing voice notes on loudspeaker in public! Everyone around you hears your private messages. Just raise your phone to your ear like a phone call. The proximity sensor automatically switches audio to earpiece. Follow for more hidden tech tricks!',
       cta: 'Follow @TechTreasure for more daily tech discoveries!',
       status: 'scripted',
       createdAt: DateTime.now(),
@@ -81,21 +89,26 @@ void main() {
       title: 'Fast Clipboard History in Windows',
       shortDescription: 'Press Win+V to access clipboard history',
       categoryId: 'cat_windows',
-      steps: const ['Press Windows key + V', 'Enable history', 'Paste earlier clips'],
+      steps: const [
+        'Press Windows key + V',
+        'Enable history',
+        'Paste earlier clips',
+      ],
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
     await treasureRepo.createTreasure(treasure);
 
-    final content = ContentEntity.fresh(
-      id: 'c-content-2',
-      treasureId: treasure.id,
-      contentType: ContentType.tiktok,
-    ).copyWith(
-      publishedAt: DateTime.now(),
-      status: 'published',
-      platformUrl: 'https://tiktok.com/@tech/video/12345',
-    );
+    final content =
+        ContentEntity.fresh(
+          id: 'c-content-2',
+          treasureId: treasure.id,
+          contentType: ContentType.tiktok,
+        ).copyWith(
+          publishedAt: DateTime.now(),
+          status: 'published',
+          platformUrl: 'https://tiktok.com/@tech/video/12345',
+        );
     await contentRepo.saveContent(content);
 
     // Log day 1 metrics
@@ -130,42 +143,60 @@ void main() {
     expect(recorded.saveRate, closeTo(8.5, 0.01));
   });
 
-  test('Deleting a treasure cascades and removes content deliverables', () async {
-    final treasure = TreasureEntity(
-      id: 't-content-3',
-      title: 'Temporary Cascade Test',
-      shortDescription: 'Testing cascade on delete',
-      categoryId: 'cat_phone_tricks',
-      steps: const ['Step 1'],
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
-    await treasureRepo.createTreasure(treasure);
+  test(
+    'Deleting a treasure cascades and removes content deliverables',
+    () async {
+      final treasure = TreasureEntity(
+        id: 't-content-3',
+        title: 'Temporary Cascade Test',
+        shortDescription: 'Testing cascade on delete',
+        categoryId: 'cat_phone_tricks',
+        steps: const ['Step 1'],
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+      await treasureRepo.createTreasure(treasure);
 
-    final content = ContentEntity.fresh(
-      id: 'c-content-3',
-      treasureId: treasure.id,
-    );
-    await contentRepo.saveContent(content);
+      final content = ContentEntity.fresh(
+        id: 'c-content-3',
+        treasureId: treasure.id,
+      );
+      await contentRepo.saveContent(content);
 
-    final metric = ContentMetricsEntity(
-      id: 'm-content-3',
-      contentId: content.id,
-      views: 500,
-      recordedAt: DateTime.now(),
-    );
-    await contentRepo.recordMetrics(metric);
+      final metric = ContentMetricsEntity(
+        id: 'm-content-3',
+        contentId: content.id,
+        views: 500,
+        recordedAt: DateTime.now(),
+      );
+      await contentRepo.recordMetrics(metric);
 
-    // Verify present
-    expect((await contentRepo.getContentForTreasure(treasure.id)).valueOrNull, isNotNull);
-    expect((await contentRepo.getMetricsForContent(content.id)).valueOrNull!.length, equals(1));
+      // Verify present
+      expect(
+        (await contentRepo.getContentForTreasure(treasure.id)).valueOrNull,
+        isNotNull,
+      );
+      expect(
+        (await contentRepo.getMetricsForContent(
+          content.id,
+        )).valueOrNull!.length,
+        equals(1),
+      );
 
-    // Delete treasure
-    await treasureRepo.deleteTreasure(treasure.id);
+      // Delete treasure
+      await treasureRepo.deleteTreasure(treasure.id);
 
-    // Verify cascade
-    expect((await contentRepo.getContentForTreasure(treasure.id)).valueOrNull, isNull);
-    expect((await contentRepo.getMetricsForContent(content.id)).valueOrNull!.length, equals(0));
-  });
+      // Verify cascade
+      expect(
+        (await contentRepo.getContentForTreasure(treasure.id)).valueOrNull,
+        isNull,
+      );
+      expect(
+        (await contentRepo.getMetricsForContent(
+          content.id,
+        )).valueOrNull!.length,
+        equals(0),
+      );
+    },
+  );
 }
-

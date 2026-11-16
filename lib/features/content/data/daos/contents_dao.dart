@@ -8,17 +8,21 @@ class ContentsDao {
   ContentsDao(this.db);
 
   Stream<Content?> watchContentForTreasure(String treasureId) {
-    return (db.select(db.contents)..where((c) => c.treasureId.equals(treasureId)))
-        .watchSingleOrNull();
+    return (db.select(
+      db.contents,
+    )..where((c) => c.treasureId.equals(treasureId))).watchSingleOrNull();
   }
 
   Future<Content?> getContentForTreasure(String treasureId) {
-    return (db.select(db.contents)..where((c) => c.treasureId.equals(treasureId)))
-        .getSingleOrNull();
+    return (db.select(
+      db.contents,
+    )..where((c) => c.treasureId.equals(treasureId))).getSingleOrNull();
   }
 
   Future<Content?> getContentById(String id) {
-    return (db.select(db.contents)..where((c) => c.id.equals(id))).getSingleOrNull();
+    return (db.select(
+      db.contents,
+    )..where((c) => c.id.equals(id))).getSingleOrNull();
   }
 
   Future<void> upsertContent(ContentsCompanion companion) async {
@@ -27,10 +31,7 @@ class ContentsDao {
 
   Future<int> updateStatus(String id, String status, DateTime now) async {
     return (db.update(db.contents)..where((c) => c.id.equals(id))).write(
-      ContentsCompanion(
-        status: Value(status),
-        updatedAt: Value(now),
-      ),
+      ContentsCompanion(status: Value(status), updatedAt: Value(now)),
     );
   }
 
@@ -58,4 +59,3 @@ class ContentsDao {
     await db.into(db.contentMetrics).insert(companion);
   }
 }
-

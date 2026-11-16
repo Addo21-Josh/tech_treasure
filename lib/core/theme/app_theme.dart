@@ -85,16 +85,28 @@ abstract class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.treasureGold, width: 1.5),
+          borderSide: const BorderSide(
+            color: AppColors.treasureGold,
+            width: 1.5,
+          ),
         ),
-        hintStyle: const TextStyle(color: AppColors.darkTextMuted, fontSize: 14),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        hintStyle: const TextStyle(
+          color: AppColors.darkTextMuted,
+          fontSize: 14,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.darkElevated,
         side: const BorderSide(color: AppColors.darkBorder),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        labelStyle: const TextStyle(fontSize: 12, color: AppColors.darkTextPrimary),
+        labelStyle: const TextStyle(
+          fontSize: 12,
+          color: AppColors.darkTextPrimary,
+        ),
       ),
       dividerTheme: const DividerThemeData(
         color: AppColors.darkBorder,
@@ -185,16 +197,28 @@ abstract class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.treasureGoldDark, width: 1.5),
+          borderSide: const BorderSide(
+            color: AppColors.treasureGoldDark,
+            width: 1.5,
+          ),
         ),
-        hintStyle: const TextStyle(color: AppColors.lightTextMuted, fontSize: 14),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        hintStyle: const TextStyle(
+          color: AppColors.lightTextMuted,
+          fontSize: 14,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.lightElevated,
         side: const BorderSide(color: AppColors.lightBorder),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        labelStyle: const TextStyle(fontSize: 12, color: AppColors.lightTextPrimary),
+        labelStyle: const TextStyle(
+          fontSize: 12,
+          color: AppColors.lightTextPrimary,
+        ),
       ),
       dividerTheme: const DividerThemeData(
         color: AppColors.lightBorder,
@@ -204,4 +228,3 @@ abstract class AppTheme {
     );
   }
 }
-

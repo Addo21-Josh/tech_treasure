@@ -11,10 +11,7 @@ import '../providers/content_providers.dart';
 class TeleprompterScreen extends ConsumerStatefulWidget {
   final String treasureId;
 
-  const TeleprompterScreen({
-    super.key,
-    required this.treasureId,
-  });
+  const TeleprompterScreen({super.key, required this.treasureId});
 
   @override
   ConsumerState<TeleprompterScreen> createState() => _TeleprompterScreenState();
@@ -100,9 +97,7 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
 
       // Base speed: 1.2 pixels per 16ms tick at 1.0x (~75 px/sec)
       final step = 1.2 * _scrollSpeed;
-      _scrollController.jumpTo(
-        math.min(currentScroll + step, maxScroll),
-      );
+      _scrollController.jumpTo(math.min(currentScroll + step, maxScroll));
     });
   }
 
@@ -128,13 +123,19 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final treasureAsync = ref.watch(treasureDetailStreamProvider(widget.treasureId));
-    final contentAsync = ref.watch(contentForTreasureProvider(widget.treasureId));
+    final treasureAsync = ref.watch(
+      treasureDetailStreamProvider(widget.treasureId),
+    );
+    final contentAsync = ref.watch(
+      contentForTreasureProvider(widget.treasureId),
+    );
 
     return Scaffold(
       backgroundColor: Colors.black,
       body: treasureAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator(color: AppColors.accentGold)),
+        loading: () => const Center(
+          child: CircularProgressIndicator(color: AppColors.accentGold),
+        ),
         error: (err, _) => Center(
           child: Text(
             'Error loading prompter: $err',
@@ -143,13 +144,19 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
         ),
         data: (treasure) {
           if (treasure == null) {
-            return const Center(child: Text('Treasure not found', style: TextStyle(color: Colors.white70)));
+            return const Center(
+              child: Text(
+                'Treasure not found',
+                style: TextStyle(color: Colors.white70),
+              ),
+            );
           }
 
           final content = contentAsync.value;
 
           // Assemble teleprompter text
-          final String scriptText = (content?.script != null && content!.script!.trim().isNotEmpty)
+          final String scriptText =
+              (content?.script != null && content!.script!.trim().isNotEmpty)
               ? content.script!
               : [
                   '# ${treasure.title.toUpperCase()}\n',
@@ -158,7 +165,9 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                   if (content?.problem != null && content!.problem!.isNotEmpty)
                     'PROBLEM: ${content.problem}\n',
                   'STEPS:',
-                  ...treasure.steps.asMap().entries.map((e) => '${e.key + 1}. ${e.value}'),
+                  ...treasure.steps.asMap().entries.map(
+                    (e) => '${e.key + 1}. ${e.value}',
+                  ),
                   if (content?.cta != null && content!.cta!.isNotEmpty)
                     '\nCTA: ${content.cta}',
                 ].join('\n');
@@ -173,11 +182,16 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                 Positioned.fill(
                   child: Transform(
                     alignment: Alignment.center,
-                    transform: _isMirrored ? Matrix4.rotationY(math.pi) : Matrix4.identity(),
+                    transform: _isMirrored
+                        ? Matrix4.rotationY(math.pi)
+                        : Matrix4.identity(),
                     child: SingleChildScrollView(
                       controller: _scrollController,
                       padding: EdgeInsets.symmetric(
-                        horizontal: math.max(24.0, MediaQuery.of(context).size.width * 0.1),
+                        horizontal: math.max(
+                          24.0,
+                          MediaQuery.of(context).size.width * 0.1,
+                        ),
                         vertical: MediaQuery.of(context).size.height * 0.45,
                       ),
                       child: Text(
@@ -221,7 +235,10 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.8),
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.accentGold, width: 3),
+                        border: Border.all(
+                          color: AppColors.accentGold,
+                          width: 3,
+                        ),
                       ),
                       child: Text(
                         '$_countdown',
@@ -241,7 +258,10 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                   left: 16,
                   right: 16,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xCC111827),
                       borderRadius: BorderRadius.circular(16),
@@ -250,7 +270,10 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                     child: Row(
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+                          icon: const Icon(
+                            Icons.arrow_back_rounded,
+                            color: Colors.white,
+                          ),
                           onPressed: () => Navigator.pop(context),
                         ),
                         Expanded(
@@ -266,8 +289,12 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                         ),
                         IconButton(
                           icon: Icon(
-                            _isMirrored ? Icons.flip_rounded : Icons.flip_camera_android_rounded,
-                            color: _isMirrored ? AppColors.accentGold : Colors.white70,
+                            _isMirrored
+                                ? Icons.flip_rounded
+                                : Icons.flip_camera_android_rounded,
+                            color: _isMirrored
+                                ? AppColors.accentGold
+                                : Colors.white70,
                           ),
                           tooltip: 'Mirror Mode',
                           onPressed: () {
@@ -275,7 +302,10 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.vertical_align_top_rounded, color: Colors.white70),
+                          icon: const Icon(
+                            Icons.vertical_align_top_rounded,
+                            color: Colors.white70,
+                          ),
                           tooltip: 'Reset to Top',
                           onPressed: _resetToTop,
                         ),
@@ -291,7 +321,10 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                   left: 16,
                   right: 16,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xEE111827),
                       borderRadius: BorderRadius.circular(20),
@@ -303,7 +336,11 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                         // Sliders for font size & speed
                         Row(
                           children: [
-                            const Icon(Icons.format_size_rounded, color: Colors.white70, size: 20),
+                            const Icon(
+                              Icons.format_size_rounded,
+                              color: Colors.white70,
+                              size: 20,
+                            ),
                             Expanded(
                               child: Slider(
                                 value: _fontSize,
@@ -311,11 +348,16 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                                 max: 56,
                                 activeColor: AppColors.accentGold,
                                 inactiveColor: Colors.white24,
-                                onChanged: (val) => setState(() => _fontSize = val),
+                                onChanged: (val) =>
+                                    setState(() => _fontSize = val),
                               ),
                             ),
                             const SizedBox(width: 8),
-                            const Icon(Icons.speed_rounded, color: Colors.white70, size: 20),
+                            const Icon(
+                              Icons.speed_rounded,
+                              color: Colors.white70,
+                              size: 20,
+                            ),
                             Expanded(
                               child: Slider(
                                 value: _scrollSpeed,
@@ -339,13 +381,26 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
                           children: [
                             FilledButton.icon(
                               onPressed: _togglePlayPause,
-                              icon: Icon(_isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded),
-                              label: Text(_isPlaying ? 'PAUSE' : 'START PROMPTER'),
+                              icon: Icon(
+                                _isPlaying
+                                    ? Icons.pause_rounded
+                                    : Icons.play_arrow_rounded,
+                              ),
+                              label: Text(
+                                _isPlaying ? 'PAUSE' : 'START PROMPTER',
+                              ),
                               style: FilledButton.styleFrom(
-                                backgroundColor: _isPlaying ? Colors.redAccent : AppColors.accentGold,
+                                backgroundColor: _isPlaying
+                                    ? Colors.redAccent
+                                    : AppColors.accentGold,
                                 foregroundColor: Colors.black,
-                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                  vertical: 12,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
                             ),
                           ],
@@ -362,4 +417,3 @@ class _TeleprompterScreenState extends ConsumerState<TeleprompterScreen> {
     );
   }
 }
-

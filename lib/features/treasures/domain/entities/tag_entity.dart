@@ -19,4 +19,3 @@ class TagEntity {
     return tag.replaceAll(RegExp(r'\s+'), '_');
   }
 }
-

@@ -8,16 +8,18 @@ import 'tables.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [
-  Categories,
-  Tags,
-  Treasures,
-  TreasureTags,
-  Sources,
-  TestRecords,
-  Contents,
-  ContentMetrics,
-])
+@DriftDatabase(
+  tables: [
+    Categories,
+    Tags,
+    Treasures,
+    TreasureTags,
+    Sources,
+    TestRecords,
+    Contents,
+    ContentMetrics,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? e]) : super(e ?? _openConnection());
 
@@ -34,15 +36,15 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (Migrator m) async {
-          await m.createAll();
-          await _seedDefaultCategories();
-          await _createIndexes();
-        },
-        beforeOpen: (details) async {
-          await customStatement('PRAGMA foreign_keys = ON;');
-        },
-      );
+    onCreate: (Migrator m) async {
+      await m.createAll();
+      await _seedDefaultCategories();
+      await _createIndexes();
+    },
+    beforeOpen: (details) async {
+      await customStatement('PRAGMA foreign_keys = ON;');
+    },
+  );
 
   Future<void> _seedDefaultCategories() async {
     final now = DateTime.now();
@@ -117,4 +119,3 @@ class AppDatabase extends _$AppDatabase {
     }
   }
 }
-

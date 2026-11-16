@@ -8,7 +8,9 @@ abstract class AppColors {
   static const Color treasureGoldDark = Color(0xFFD97706); // Amber 600
   static const Color treasureGoldLight = Color(0xFFFDE68A); // Amber 200
   static const Color treasureGoldContainerDark = Color(0xFF78350F); // Amber 900
-  static const Color treasureGoldContainerLight = Color(0xFFFEF3C7); // Amber 100
+  static const Color treasureGoldContainerLight = Color(
+    0xFFFEF3C7,
+  ); // Amber 100
 
   // Dark Mode Surfaces (Primary)
   static const Color darkBackground = Color(0xFF0F172A); // Slate 900
@@ -37,18 +39,21 @@ abstract class AppColors {
   static const Color darkSurfaceElevated = darkElevated;
 
   static Color statusColor(TreasureStatus status) => switch (status) {
-        TreasureStatus.idea => const Color(0xFFFBBF24), // Amber
-        TreasureStatus.researching => const Color(0xFF38BDF8), // Sky Blue
-        TreasureStatus.testing => const Color(0xFFC084FC), // Purple
-        TreasureStatus.verified => const Color(0xFF4ADE80), // Emerald Green
-        TreasureStatus.readyToCreate => const Color(0xFF818CF8), // Indigo
-        TreasureStatus.scripted => const Color(0xFFFB923C), // Orange
-        TreasureStatus.recorded => const Color(0xFF60A5FA), // Blue
-        TreasureStatus.edited => const Color(0xFFA5B4FC), // Light Indigo
-        TreasureStatus.published => const Color(0xFF34D399), // Mint Green
-      };
+    TreasureStatus.idea => const Color(0xFFFBBF24), // Amber
+    TreasureStatus.researching => const Color(0xFF38BDF8), // Sky Blue
+    TreasureStatus.testing => const Color(0xFFC084FC), // Purple
+    TreasureStatus.verified => const Color(0xFF4ADE80), // Emerald Green
+    TreasureStatus.readyToCreate => const Color(0xFF818CF8), // Indigo
+    TreasureStatus.scripted => const Color(0xFFFB923C), // Orange
+    TreasureStatus.recorded => const Color(0xFF60A5FA), // Blue
+    TreasureStatus.edited => const Color(0xFFA5B4FC), // Light Indigo
+    TreasureStatus.published => const Color(0xFF34D399), // Mint Green
+  };
 
-  static Color statusBackgroundColor(TreasureStatus status, {bool isDark = true}) {
+  static Color statusBackgroundColor(
+    TreasureStatus status, {
+    bool isDark = true,
+  }) {
     if (isDark) {
       return switch (status) {
         TreasureStatus.idea => const Color(0xFF451A03),
@@ -76,4 +81,3 @@ abstract class AppColors {
     }
   }
 }
-

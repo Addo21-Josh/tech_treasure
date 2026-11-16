@@ -40,9 +40,15 @@ void main() {
     final createResult = await repository.createTreasure(treasure);
     if (createResult.isFailure) {
       // ignore: avoid_print
-      print('DEBUG FAILURE: ${createResult.failureOrNull?.message} | Cause: ${createResult.failureOrNull?.cause}');
+      print(
+        'DEBUG FAILURE: ${createResult.failureOrNull?.message} | Cause: ${createResult.failureOrNull?.cause}',
+      );
     }
-    expect(createResult.isSuccess, isTrue, reason: createResult.failureOrNull?.message);
+    expect(
+      createResult.isSuccess,
+      isTrue,
+      reason: createResult.failureOrNull?.message,
+    );
 
     final fetchResult = await repository.getTreasureById('test_123');
     expect(fetchResult.isSuccess, isTrue);
@@ -92,10 +98,15 @@ void main() {
 
     await repository.createTreasure(treasure);
 
-    final updateResult = await repository.updateStatus('status_test', TreasureStatus.verified);
+    final updateResult = await repository.updateStatus(
+      'status_test',
+      TreasureStatus.verified,
+    );
     expect(updateResult.isSuccess, isTrue);
 
-    final fetched = (await repository.getTreasureById('status_test')).valueOrNull!;
+    final fetched = (await repository.getTreasureById(
+      'status_test',
+    )).valueOrNull!;
     expect(fetched.status, TreasureStatus.verified);
   });
 
@@ -156,4 +167,3 @@ void main() {
     expect((await repository.getTotalCount()).valueOrNull, 0);
   });
 }
-

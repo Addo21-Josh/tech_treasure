@@ -14,7 +14,8 @@ class AddEditTreasureScreen extends ConsumerStatefulWidget {
   const AddEditTreasureScreen({super.key, this.treasureId});
 
   @override
-  ConsumerState<AddEditTreasureScreen> createState() => _AddEditTreasureScreenState();
+  ConsumerState<AddEditTreasureScreen> createState() =>
+      _AddEditTreasureScreenState();
 }
 
 class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
@@ -115,9 +116,9 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
   Future<void> _saveTreasure() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedCategoryId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a category')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select a category')));
       return;
     }
 
@@ -130,18 +131,36 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
       id: widget.treasureId ?? '',
       title: _titleController.text.trim(),
       shortDescription: _shortDescController.text.trim(),
-      problem: _problemController.text.trim().isNotEmpty ? _problemController.text.trim() : null,
-      solution: _solutionController.text.trim().isNotEmpty ? _solutionController.text.trim() : null,
-      whyUseful: _whyUsefulController.text.trim().isNotEmpty ? _whyUsefulController.text.trim() : null,
+      problem: _problemController.text.trim().isNotEmpty
+          ? _problemController.text.trim()
+          : null,
+      solution: _solutionController.text.trim().isNotEmpty
+          ? _solutionController.text.trim()
+          : null,
+      whyUseful: _whyUsefulController.text.trim().isNotEmpty
+          ? _whyUsefulController.text.trim()
+          : null,
       categoryId: _selectedCategoryId!,
       status: _status,
-      device: _deviceController.text.trim().isNotEmpty ? _deviceController.text.trim() : null,
-      platform: _platformController.text.trim().isNotEmpty ? _platformController.text.trim() : null,
-      osVersion: _osVersionController.text.trim().isNotEmpty ? _osVersionController.text.trim() : null,
-      requirements: _requirementsController.text.trim().isNotEmpty ? _requirementsController.text.trim() : null,
+      device: _deviceController.text.trim().isNotEmpty
+          ? _deviceController.text.trim()
+          : null,
+      platform: _platformController.text.trim().isNotEmpty
+          ? _platformController.text.trim()
+          : null,
+      osVersion: _osVersionController.text.trim().isNotEmpty
+          ? _osVersionController.text.trim()
+          : null,
+      requirements: _requirementsController.text.trim().isNotEmpty
+          ? _requirementsController.text.trim()
+          : null,
       steps: _steps,
-      limitations: _limitationsController.text.trim().isNotEmpty ? _limitationsController.text.trim() : null,
-      securityNotes: _securityNotesController.text.trim().isNotEmpty ? _securityNotesController.text.trim() : null,
+      limitations: _limitationsController.text.trim().isNotEmpty
+          ? _limitationsController.text.trim()
+          : null,
+      securityNotes: _securityNotesController.text.trim().isNotEmpty
+          ? _securityNotesController.text.trim()
+          : null,
       noAppNeeded: _noAppNeeded,
       contentPotential: _contentPotential,
       createdAt: now,
@@ -170,9 +189,9 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
       result.fold(
         onSuccess: (_) {
           context.pop();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('💎 Treasure updated!')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('💎 Treasure updated!')));
         },
         onFailure: (f) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -189,7 +208,9 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
 
     // If editing, load initial data
     if (widget.treasureId != null && !_isInitialized) {
-      final treasureAsync = ref.watch(treasureDetailStreamProvider(widget.treasureId!));
+      final treasureAsync = ref.watch(
+        treasureDetailStreamProvider(widget.treasureId!),
+      );
       treasureAsync.whenData((treasure) {
         if (treasure != null) {
           _initializeWithTreasure(treasure);
@@ -210,7 +231,10 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Icon(Icons.check_rounded, color: AppColors.treasureGold),
+                : const Icon(
+                    Icons.check_rounded,
+                    color: AppColors.treasureGold,
+                  ),
             tooltip: 'Save Treasure',
             onPressed: _isSaving ? null : _saveTreasure,
           ),
@@ -227,9 +251,13 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
               decoration: const InputDecoration(
                 labelText: 'Treasure Title *',
                 hintText: 'e.g. Turn Android Phone Into PC Mouse',
-                prefixIcon: Icon(Icons.title_rounded, color: AppColors.treasureGold),
+                prefixIcon: Icon(
+                  Icons.title_rounded,
+                  color: AppColors.treasureGold,
+                ),
               ),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Title is required' : null,
+              validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? 'Title is required' : null,
             ),
             const SizedBox(height: 16),
 
@@ -243,7 +271,10 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                   initialValue: _selectedCategoryId,
                   decoration: const InputDecoration(
                     labelText: 'Category *',
-                    prefixIcon: Icon(Icons.category_rounded, color: AppColors.treasureGold),
+                    prefixIcon: Icon(
+                      Icons.category_rounded,
+                      color: AppColors.treasureGold,
+                    ),
                   ),
                   items: categories.map((cat) {
                     return DropdownMenuItem(
@@ -252,7 +283,8 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                     );
                   }).toList(),
                   onChanged: (val) => setState(() => _selectedCategoryId = val),
-                  validator: (v) => v == null ? 'Please select a category' : null,
+                  validator: (v) =>
+                      v == null ? 'Please select a category' : null,
                 );
               },
               loading: () => const LinearProgressIndicator(),
@@ -266,10 +298,15 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
               decoration: const InputDecoration(
                 labelText: 'Short Description *',
                 hintText: '1-2 sentence quick summary of the trick',
-                prefixIcon: Icon(Icons.short_text_rounded, color: AppColors.treasureGold),
+                prefixIcon: Icon(
+                  Icons.short_text_rounded,
+                  color: AppColors.treasureGold,
+                ),
               ),
               maxLines: 2,
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Description is required' : null,
+              validator: (v) => (v == null || v.trim().isEmpty)
+                  ? 'Description is required'
+                  : null,
             ),
             const SizedBox(height: 20),
 
@@ -294,7 +331,10 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surfaceContainer,
                       borderRadius: BorderRadius.circular(12),
@@ -305,11 +345,15 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                       children: [
                         const Text(
                           'Content Potential',
-                          style: TextStyle(fontSize: 11, color: AppColors.darkTextSecondary),
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: AppColors.darkTextSecondary,
+                          ),
                         ),
                         StarRatingInput(
                           rating: _contentPotential,
-                          onRatingChanged: (r) => setState(() => _contentPotential = r),
+                          onRatingChanged: (r) =>
+                              setState(() => _contentPotential = r),
                           size: 18,
                         ),
                       ],
@@ -325,8 +369,13 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
               value: _noAppNeeded,
               onChanged: (val) => setState(() => _noAppNeeded = val),
               title: const Text('No App Needed?'),
-              subtitle: const Text('Built-in native device setting or trick without extra software'),
-              secondary: const Icon(Icons.no_cell_rounded, color: Color(0xFF38BDF8)),
+              subtitle: const Text(
+                'Built-in native device setting or trick without extra software',
+              ),
+              secondary: const Icon(
+                Icons.no_cell_rounded,
+                color: Color(0xFF38BDF8),
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
                 side: const BorderSide(color: AppColors.darkBorder),
@@ -372,14 +421,18 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                 Expanded(
                   child: TextFormField(
                     controller: _deviceController,
-                    decoration: const InputDecoration(labelText: 'Device (e.g. Android)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Device (e.g. Android)',
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: TextFormField(
                     controller: _platformController,
-                    decoration: const InputDecoration(labelText: 'Platform (e.g. Windows)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Platform (e.g. Windows)',
+                    ),
                   ),
                 ),
               ],
@@ -390,14 +443,18 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                 Expanded(
                   child: TextFormField(
                     controller: _osVersionController,
-                    decoration: const InputDecoration(labelText: 'OS Version (e.g. 14+)'),
+                    decoration: const InputDecoration(
+                      labelText: 'OS Version (e.g. 14+)',
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: TextFormField(
                     controller: _requirementsController,
-                    decoration: const InputDecoration(labelText: 'Requirements (e.g. Wi-Fi)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Requirements (e.g. Wi-Fi)',
+                    ),
                   ),
                 ),
               ],
@@ -434,7 +491,10 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   'No steps added yet. Add instructions in order.',
-                  style: TextStyle(fontSize: 13, color: AppColors.darkTextMuted),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.darkTextMuted,
+                  ),
                 ),
               )
             else
@@ -453,7 +513,10 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                   return Container(
                     key: ValueKey('step_$index'),
                     margin: const EdgeInsets.only(bottom: 6),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(10),
@@ -484,7 +547,10 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                           icon: const Icon(Icons.close_rounded, size: 16),
                           onPressed: () => _removeStep(index),
                         ),
-                        const Icon(Icons.drag_handle_rounded, color: AppColors.darkTextMuted),
+                        const Icon(
+                          Icons.drag_handle_rounded,
+                          color: AppColors.darkTextMuted,
+                        ),
                       ],
                     ),
                   );
@@ -498,7 +564,8 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
               controller: _limitationsController,
               decoration: const InputDecoration(
                 labelText: 'Limitations',
-                hintText: 'Known constraints, battery consumption, guest Wi-Fi blocks...',
+                hintText:
+                    'Known constraints, battery consumption, guest Wi-Fi blocks...',
               ),
               maxLines: 2,
             ),
@@ -522,7 +589,9 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
                 backgroundColor: AppColors.treasureGold,
                 foregroundColor: const Color(0xFF451A03),
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
               ),
             ),
             const SizedBox(height: 40),
@@ -547,4 +616,3 @@ class _AddEditTreasureScreenState extends ConsumerState<AddEditTreasureScreen> {
     );
   }
 }
-

@@ -29,93 +29,122 @@ class BackupService {
 
       // 2. Build canonical data payload
       final data = {
-        'categories': categoriesRows.map((c) => {
-          'id': c.id,
-          'name': c.name,
-          'description': c.description,
-          'icon': c.icon,
-          'isDefault': c.isDefault,
-          'createdAt': c.createdAt.millisecondsSinceEpoch,
-        }).toList(),
-        'tags': tagsRows.map((t) => {
-          'id': t.id,
-          'name': t.name,
-          'createdAt': t.createdAt.millisecondsSinceEpoch,
-        }).toList(),
-        'treasures': treasuresRows.map((t) => {
-          'id': t.id,
-          'title': t.title,
-          'shortDescription': t.shortDescription,
-          'problem': t.problem,
-          'solution': t.solution,
-          'whyUseful': t.whyUseful,
-          'categoryId': t.categoryId,
-          'status': t.status,
-          'device': t.device,
-          'platform': t.platform,
-          'osVersion': t.osVersion,
-          'requirements': t.requirements,
-          'steps': t.stepsJson != null ? (jsonDecode(t.stepsJson!) as List).cast<String>() : <String>[],
-          'limitations': t.limitations,
-          'securityNotes': t.securityNotes,
-          'researchStatus': t.researchStatus,
-          'isVerified': t.isVerified,
-          'isFavorite': t.isFavorite,
-          'noAppNeeded': t.noAppNeeded,
-          'contentPotential': t.contentPotential,
-          'createdAt': t.createdAt.millisecondsSinceEpoch,
-          'updatedAt': t.updatedAt.millisecondsSinceEpoch,
-        }).toList(),
-        'treasureTags': treasureTagsRows.map((tt) => {
-          'treasureId': tt.treasureId,
-          'tagId': tt.tagId,
-        }).toList(),
-        'sources': sourcesRows.map((s) => {
-          'id': s.id,
-          'treasureId': s.treasureId,
-          'title': s.title,
-          'url': s.url,
-          'sourceType': s.sourceType,
-          'notes': s.notes,
-          'createdAt': s.createdAt.millisecondsSinceEpoch,
-        }).toList(),
-        'testRecords': testRecordsRows.map((tr) => {
-          'id': tr.id,
-          'treasureId': tr.treasureId,
-          'device': tr.device,
-          'osVersion': tr.osVersion,
-          'environment': tr.environment,
-          'result': tr.result,
-          'notes': tr.notes,
-          'testedAt': tr.testedAt.millisecondsSinceEpoch,
-        }).toList(),
-        'contents': contentsRows.map((cnt) => {
-          'id': cnt.id,
-          'treasureId': cnt.treasureId,
-          'contentType': cnt.contentType,
-          'hook': cnt.hook,
-          'problem': cnt.problem,
-          'demonstration': cnt.demonstration,
-          'script': cnt.script,
-          'cta': cnt.cta,
-          'status': cnt.status,
-          'platformUrl': cnt.platformUrl,
-          'publishedAt': cnt.publishedAt?.millisecondsSinceEpoch,
-          'createdAt': cnt.createdAt.millisecondsSinceEpoch,
-          'updatedAt': cnt.updatedAt.millisecondsSinceEpoch,
-        }).toList(),
-        'contentMetrics': contentMetricsRows.map((cm) => {
-          'id': cm.id,
-          'contentId': cm.contentId,
-          'views': cm.views,
-          'likes': cm.likes,
-          'comments': cm.comments,
-          'shares': cm.shares,
-          'saves': cm.saves,
-          'followersGained': cm.followersGained,
-          'performanceNotes': cm.performanceNotes,
-          'recordedAt': cm.recordedAt.millisecondsSinceEpoch,
-        }).toList(),
+        'categories': categoriesRows
+            .map(
+              (c) => {
+                'id': c.id,
+                'name': c.name,
+                'description': c.description,
+                'icon': c.icon,
+                'isDefault': c.isDefault,
+                'createdAt': c.createdAt.millisecondsSinceEpoch,
+              },
+            )
+            .toList(),
+        'tags': tagsRows
+            .map(
+              (t) => {
+                'id': t.id,
+                'name': t.name,
+                'createdAt': t.createdAt.millisecondsSinceEpoch,
+              },
+            )
+            .toList(),
+        'treasures': treasuresRows
+            .map(
+              (t) => {
+                'id': t.id,
+                'title': t.title,
+                'shortDescription': t.shortDescription,
+                'problem': t.problem,
+                'solution': t.solution,
+                'whyUseful': t.whyUseful,
+                'categoryId': t.categoryId,
+                'status': t.status,
+                'device': t.device,
+                'platform': t.platform,
+                'osVersion': t.osVersion,
+                'requirements': t.requirements,
+                'steps': t.stepsJson != null
+                    ? (jsonDecode(t.stepsJson!) as List).cast<String>()
+                    : <String>[],
+                'limitations': t.limitations,
+                'securityNotes': t.securityNotes,
+                'researchStatus': t.researchStatus,
+                'isVerified': t.isVerified,
+                'isFavorite': t.isFavorite,
+                'noAppNeeded': t.noAppNeeded,
+                'contentPotential': t.contentPotential,
+                'createdAt': t.createdAt.millisecondsSinceEpoch,
+                'updatedAt': t.updatedAt.millisecondsSinceEpoch,
+              },
+            )
+            .toList(),
+        'treasureTags': treasureTagsRows
+            .map((tt) => {'treasureId': tt.treasureId, 'tagId': tt.tagId})
+            .toList(),
+        'sources': sourcesRows
+            .map(
+              (s) => {
+                'id': s.id,
+                'treasureId': s.treasureId,
+                'title': s.title,
+                'url': s.url,
+                'sourceType': s.sourceType,
+                'notes': s.notes,
+                'createdAt': s.createdAt.millisecondsSinceEpoch,
+              },
+            )
+            .toList(),
+        'testRecords': testRecordsRows
+            .map(
+              (tr) => {
+                'id': tr.id,
+                'treasureId': tr.treasureId,
+                'device': tr.device,
+                'osVersion': tr.osVersion,
+                'environment': tr.environment,
+                'result': tr.result,
+                'notes': tr.notes,
+                'testedAt': tr.testedAt.millisecondsSinceEpoch,
+              },
+            )
+            .toList(),
+        'contents': contentsRows
+            .map(
+              (cnt) => {
+                'id': cnt.id,
+                'treasureId': cnt.treasureId,
+                'contentType': cnt.contentType,
+                'hook': cnt.hook,
+                'problem': cnt.problem,
+                'demonstration': cnt.demonstration,
+                'script': cnt.script,
+                'cta': cnt.cta,
+                'status': cnt.status,
+                'platformUrl': cnt.platformUrl,
+                'publishedAt': cnt.publishedAt?.millisecondsSinceEpoch,
+                'createdAt': cnt.createdAt.millisecondsSinceEpoch,
+                'updatedAt': cnt.updatedAt.millisecondsSinceEpoch,
+              },
+            )
+            .toList(),
+        'contentMetrics': contentMetricsRows
+            .map(
+              (cm) => {
+                'id': cm.id,
+                'contentId': cm.contentId,
+                'views': cm.views,
+                'likes': cm.likes,
+                'comments': cm.comments,
+                'shares': cm.shares,
+                'saves': cm.saves,
+                'followersGained': cm.followersGained,
+                'performanceNotes': cm.performanceNotes,
+                'recordedAt': cm.recordedAt.millisecondsSinceEpoch,
+              },
+            )
+            .toList(),
       };
 
       // 3. Compute SHA-256 Checksum on UTF-8 canonical data
@@ -145,48 +174,71 @@ class BackupService {
       final output = const JsonEncoder.withIndent('  ').convert(envelope);
       return Success(output);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to generate JSON backup: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to generate JSON backup: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   /// Validates a backup JSON string and returns a dry-run summary. Does NOT touch database.
-  Future<Result<BackupSummary, Failure>> validateBackup(String jsonString) async {
+  Future<Result<BackupSummary, Failure>> validateBackup(
+    String jsonString,
+  ) async {
     try {
       final dynamic raw = json.decode(jsonString);
       if (raw is! Map<String, dynamic>) {
-        return FailureResult(const ValidationFailure('Invalid backup: Root is not a JSON object.'));
+        return FailureResult(
+          const ValidationFailure('Invalid backup: Root is not a JSON object.'),
+        );
       }
 
       final version = raw['version'] as String? ?? '';
       if (!version.startsWith('1.')) {
-        return FailureResult(ValidationFailure('Incompatible backup version: "$version". App supports 1.x.'));
+        return FailureResult(
+          ValidationFailure(
+            'Incompatible backup version: "$version". App supports 1.x.',
+          ),
+        );
       }
 
       final schemaVersion = raw['schemaVersion'] as int? ?? 0;
       if (schemaVersion < 1) {
-        return FailureResult(const ValidationFailure('Invalid schema version.'));
+        return FailureResult(
+          const ValidationFailure('Invalid schema version.'),
+        );
       }
 
       final metadata = raw['metadata'] as Map<String, dynamic>?;
       final data = raw['data'] as Map<String, dynamic>?;
 
       if (metadata == null || data == null) {
-        return FailureResult(const ValidationFailure('Backup missing metadata or data section.'));
+        return FailureResult(
+          const ValidationFailure('Backup missing metadata or data section.'),
+        );
       }
 
       final expectedChecksum = metadata['checksum'] as String? ?? '';
       if (expectedChecksum.isEmpty) {
-        return FailureResult(const ValidationFailure('Missing SHA-256 checksum in metadata.'));
+        return FailureResult(
+          const ValidationFailure('Missing SHA-256 checksum in metadata.'),
+        );
       }
 
       // Re-compute SHA-256 hash over data
       final actualDataString = json.encode(data);
-      final actualHash = 'sha256-${sha256.convert(utf8.encode(actualDataString))}';
+      final actualHash =
+          'sha256-${sha256.convert(utf8.encode(actualDataString))}';
 
       if (expectedChecksum != actualHash) {
-        return FailureResult(ValidationFailure(
-          'SHA-256 integrity verification failed. File may be corrupted or modified.\nExpected: $expectedChecksum\nComputed: $actualHash',
-        ));
+        return FailureResult(
+          ValidationFailure(
+            'SHA-256 integrity verification failed. File may be corrupted or modified.\nExpected: $expectedChecksum\nComputed: $actualHash',
+          ),
+        );
       }
 
       final treasures = (data['treasures'] as List?) ?? [];
@@ -200,7 +252,9 @@ class BackupService {
       final summary = BackupSummary(
         version: version,
         schemaVersion: schemaVersion,
-        exportedAt: DateTime.tryParse(raw['exportedAt'] as String? ?? '') ?? DateTime.now(),
+        exportedAt:
+            DateTime.tryParse(raw['exportedAt'] as String? ?? '') ??
+            DateTime.now(),
         appVersion: raw['appVersion'] as String? ?? '',
         totalTreasures: treasures.length,
         totalCategories: categories.length,
@@ -215,7 +269,13 @@ class BackupService {
 
       return Success(summary);
     } catch (e, st) {
-      return FailureResult(ValidationFailure('Failed to parse or validate backup: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        ValidationFailure(
+          'Failed to parse or validate backup: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -245,29 +305,37 @@ class BackupService {
         final categories = (data['categories'] as List?) ?? [];
         for (final item in categories) {
           final m = item as Map<String, dynamic>;
-          await db.into(db.categories).insert(
-            CategoriesCompanion.insert(
-              id: m['id'] as String,
-              name: m['name'] as String,
-              description: Value(m['description'] as String?),
-              icon: m['icon'] as String,
-              isDefault: Value(m['isDefault'] as bool? ?? false),
-              createdAt: DateTime.fromMillisecondsSinceEpoch(m['createdAt'] as int),
-            ),
-          );
+          await db
+              .into(db.categories)
+              .insert(
+                CategoriesCompanion.insert(
+                  id: m['id'] as String,
+                  name: m['name'] as String,
+                  description: Value(m['description'] as String?),
+                  icon: m['icon'] as String,
+                  isDefault: Value(m['isDefault'] as bool? ?? false),
+                  createdAt: DateTime.fromMillisecondsSinceEpoch(
+                    m['createdAt'] as int,
+                  ),
+                ),
+              );
         }
 
         // 3. Insert Tags
         final tags = (data['tags'] as List?) ?? [];
         for (final item in tags) {
           final m = item as Map<String, dynamic>;
-          await db.into(db.tags).insert(
-            TagsCompanion.insert(
-              id: m['id'] as String,
-              name: m['name'] as String,
-              createdAt: DateTime.fromMillisecondsSinceEpoch(m['createdAt'] as int),
-            ),
-          );
+          await db
+              .into(db.tags)
+              .insert(
+                TagsCompanion.insert(
+                  id: m['id'] as String,
+                  name: m['name'] as String,
+                  createdAt: DateTime.fromMillisecondsSinceEpoch(
+                    m['createdAt'] as int,
+                  ),
+                ),
+              );
         }
 
         // 4. Insert Treasures
@@ -279,79 +347,97 @@ class BackupService {
               ? jsonEncode(stepsRaw)
               : (stepsRaw is String ? stepsRaw : null);
 
-          await db.into(db.treasures).insert(
-            TreasuresCompanion.insert(
-              id: m['id'] as String,
-              title: m['title'] as String,
-              shortDescription: m['shortDescription'] as String,
-              problem: Value(m['problem'] as String?),
-              solution: Value(m['solution'] as String?),
-              whyUseful: Value(m['whyUseful'] as String?),
-              categoryId: m['categoryId'] as String,
-              status: Value(m['status'] as String? ?? 'idea'),
-              device: Value(m['device'] as String?),
-              platform: Value(m['platform'] as String?),
-              osVersion: Value(m['osVersion'] as String?),
-              requirements: Value(m['requirements'] as String?),
-              stepsJson: Value(stepsJsonStr),
-              limitations: Value(m['limitations'] as String?),
-              securityNotes: Value(m['securityNotes'] as String?),
-              researchStatus: Value(m['researchStatus'] as String? ?? 'notResearched'),
-              isVerified: Value(m['isVerified'] as bool? ?? false),
-              isFavorite: Value(m['isFavorite'] as bool? ?? false),
-              noAppNeeded: Value(m['noAppNeeded'] as bool? ?? false),
-              contentPotential: Value(m['contentPotential'] as int? ?? 3),
-              createdAt: DateTime.fromMillisecondsSinceEpoch(m['createdAt'] as int),
-              updatedAt: DateTime.fromMillisecondsSinceEpoch(m['updatedAt'] as int),
-            ),
-          );
+          await db
+              .into(db.treasures)
+              .insert(
+                TreasuresCompanion.insert(
+                  id: m['id'] as String,
+                  title: m['title'] as String,
+                  shortDescription: m['shortDescription'] as String,
+                  problem: Value(m['problem'] as String?),
+                  solution: Value(m['solution'] as String?),
+                  whyUseful: Value(m['whyUseful'] as String?),
+                  categoryId: m['categoryId'] as String,
+                  status: Value(m['status'] as String? ?? 'idea'),
+                  device: Value(m['device'] as String?),
+                  platform: Value(m['platform'] as String?),
+                  osVersion: Value(m['osVersion'] as String?),
+                  requirements: Value(m['requirements'] as String?),
+                  stepsJson: Value(stepsJsonStr),
+                  limitations: Value(m['limitations'] as String?),
+                  securityNotes: Value(m['securityNotes'] as String?),
+                  researchStatus: Value(
+                    m['researchStatus'] as String? ?? 'notResearched',
+                  ),
+                  isVerified: Value(m['isVerified'] as bool? ?? false),
+                  isFavorite: Value(m['isFavorite'] as bool? ?? false),
+                  noAppNeeded: Value(m['noAppNeeded'] as bool? ?? false),
+                  contentPotential: Value(m['contentPotential'] as int? ?? 3),
+                  createdAt: DateTime.fromMillisecondsSinceEpoch(
+                    m['createdAt'] as int,
+                  ),
+                  updatedAt: DateTime.fromMillisecondsSinceEpoch(
+                    m['updatedAt'] as int,
+                  ),
+                ),
+              );
         }
 
         // 5. Insert TreasureTags
         final treasureTags = (data['treasureTags'] as List?) ?? [];
         for (final item in treasureTags) {
           final m = item as Map<String, dynamic>;
-          await db.into(db.treasureTags).insert(
-            TreasureTagsCompanion.insert(
-              treasureId: m['treasureId'] as String,
-              tagId: m['tagId'] as String,
-            ),
-          );
+          await db
+              .into(db.treasureTags)
+              .insert(
+                TreasureTagsCompanion.insert(
+                  treasureId: m['treasureId'] as String,
+                  tagId: m['tagId'] as String,
+                ),
+              );
         }
 
         // 6. Insert Sources
         final sources = (data['sources'] as List?) ?? [];
         for (final item in sources) {
           final m = item as Map<String, dynamic>;
-          await db.into(db.sources).insert(
-            SourcesCompanion.insert(
-              id: m['id'] as String,
-              treasureId: m['treasureId'] as String,
-              title: m['title'] as String,
-              url: Value(m['url'] as String?),
-              sourceType: m['sourceType'] as String,
-              notes: Value(m['notes'] as String?),
-              createdAt: DateTime.fromMillisecondsSinceEpoch(m['createdAt'] as int),
-            ),
-          );
+          await db
+              .into(db.sources)
+              .insert(
+                SourcesCompanion.insert(
+                  id: m['id'] as String,
+                  treasureId: m['treasureId'] as String,
+                  title: m['title'] as String,
+                  url: Value(m['url'] as String?),
+                  sourceType: m['sourceType'] as String,
+                  notes: Value(m['notes'] as String?),
+                  createdAt: DateTime.fromMillisecondsSinceEpoch(
+                    m['createdAt'] as int,
+                  ),
+                ),
+              );
         }
 
         // 7. Insert TestRecords
         final testRecords = (data['testRecords'] as List?) ?? [];
         for (final item in testRecords) {
           final m = item as Map<String, dynamic>;
-          await db.into(db.testRecords).insert(
-            TestRecordsCompanion.insert(
-              id: m['id'] as String,
-              treasureId: m['treasureId'] as String,
-              device: m['device'] as String,
-              osVersion: m['osVersion'] as String,
-              environment: Value(m['environment'] as String?),
-              result: m['result'] as String,
-              notes: Value(m['notes'] as String?),
-              testedAt: DateTime.fromMillisecondsSinceEpoch(m['testedAt'] as int),
-            ),
-          );
+          await db
+              .into(db.testRecords)
+              .insert(
+                TestRecordsCompanion.insert(
+                  id: m['id'] as String,
+                  treasureId: m['treasureId'] as String,
+                  device: m['device'] as String,
+                  osVersion: m['osVersion'] as String,
+                  environment: Value(m['environment'] as String?),
+                  result: m['result'] as String,
+                  notes: Value(m['notes'] as String?),
+                  testedAt: DateTime.fromMillisecondsSinceEpoch(
+                    m['testedAt'] as int,
+                  ),
+                ),
+              );
         }
 
         // 8. Insert Contents
@@ -359,49 +445,69 @@ class BackupService {
         for (final item in contents) {
           final m = item as Map<String, dynamic>;
           final pubMs = m['publishedAt'] as int?;
-          await db.into(db.contents).insert(
-            ContentsCompanion.insert(
-              id: m['id'] as String,
-              treasureId: m['treasureId'] as String,
-              contentType: m['contentType'] as String,
-              hook: Value(m['hook'] as String?),
-              problem: Value(m['problem'] as String?),
-              demonstration: Value(m['demonstration'] as String?),
-              script: Value(m['script'] as String?),
-              cta: Value(m['cta'] as String?),
-              status: Value(m['status'] as String? ?? 'idea'),
-              platformUrl: Value(m['platformUrl'] as String?),
-              publishedAt: Value(pubMs != null ? DateTime.fromMillisecondsSinceEpoch(pubMs) : null),
-              createdAt: DateTime.fromMillisecondsSinceEpoch(m['createdAt'] as int),
-              updatedAt: DateTime.fromMillisecondsSinceEpoch(m['updatedAt'] as int),
-            ),
-          );
+          await db
+              .into(db.contents)
+              .insert(
+                ContentsCompanion.insert(
+                  id: m['id'] as String,
+                  treasureId: m['treasureId'] as String,
+                  contentType: m['contentType'] as String,
+                  hook: Value(m['hook'] as String?),
+                  problem: Value(m['problem'] as String?),
+                  demonstration: Value(m['demonstration'] as String?),
+                  script: Value(m['script'] as String?),
+                  cta: Value(m['cta'] as String?),
+                  status: Value(m['status'] as String? ?? 'idea'),
+                  platformUrl: Value(m['platformUrl'] as String?),
+                  publishedAt: Value(
+                    pubMs != null
+                        ? DateTime.fromMillisecondsSinceEpoch(pubMs)
+                        : null,
+                  ),
+                  createdAt: DateTime.fromMillisecondsSinceEpoch(
+                    m['createdAt'] as int,
+                  ),
+                  updatedAt: DateTime.fromMillisecondsSinceEpoch(
+                    m['updatedAt'] as int,
+                  ),
+                ),
+              );
         }
 
         // 9. Insert ContentMetrics
         final contentMetrics = (data['contentMetrics'] as List?) ?? [];
         for (final item in contentMetrics) {
           final m = item as Map<String, dynamic>;
-          await db.into(db.contentMetrics).insert(
-            ContentMetricsCompanion.insert(
-              id: m['id'] as String,
-              contentId: m['contentId'] as String,
-              views: Value(m['views'] as int? ?? 0),
-              likes: Value(m['likes'] as int? ?? 0),
-              comments: Value(m['comments'] as int? ?? 0),
-              shares: Value(m['shares'] as int? ?? 0),
-              saves: Value(m['saves'] as int? ?? 0),
-              followersGained: Value(m['followersGained'] as int? ?? 0),
-              performanceNotes: Value(m['performanceNotes'] as String?),
-              recordedAt: DateTime.fromMillisecondsSinceEpoch(m['recordedAt'] as int),
-            ),
-          );
+          await db
+              .into(db.contentMetrics)
+              .insert(
+                ContentMetricsCompanion.insert(
+                  id: m['id'] as String,
+                  contentId: m['contentId'] as String,
+                  views: Value(m['views'] as int? ?? 0),
+                  likes: Value(m['likes'] as int? ?? 0),
+                  comments: Value(m['comments'] as int? ?? 0),
+                  shares: Value(m['shares'] as int? ?? 0),
+                  saves: Value(m['saves'] as int? ?? 0),
+                  followersGained: Value(m['followersGained'] as int? ?? 0),
+                  performanceNotes: Value(m['performanceNotes'] as String?),
+                  recordedAt: DateTime.fromMillisecondsSinceEpoch(
+                    m['recordedAt'] as int,
+                  ),
+                ),
+              );
         }
       });
 
       return const Success(null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Atomic database restoration failed: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Atomic database restoration failed: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -415,7 +521,8 @@ class BackupService {
       final sources = await db.select(db.sources).get();
       final sourcesCountMap = <String, int>{};
       for (final s in sources) {
-        sourcesCountMap[s.treasureId] = (sourcesCountMap[s.treasureId] ?? 0) + 1;
+        sourcesCountMap[s.treasureId] =
+            (sourcesCountMap[s.treasureId] ?? 0) + 1;
       }
 
       final tests = await db.select(db.testRecords).get();
@@ -431,8 +538,10 @@ class BackupService {
       final metricsViewsMap = <String, int>{};
       final metricsSavesMap = <String, int>{};
       for (final m in metrics) {
-        metricsViewsMap[m.contentId] = (metricsViewsMap[m.contentId] ?? 0) + m.views;
-        metricsSavesMap[m.contentId] = (metricsSavesMap[m.contentId] ?? 0) + m.saves;
+        metricsViewsMap[m.contentId] =
+            (metricsViewsMap[m.contentId] ?? 0) + m.views;
+        metricsSavesMap[m.contentId] =
+            (metricsSavesMap[m.contentId] ?? 0) + m.saves;
       }
 
       final buffer = StringBuffer();
@@ -448,8 +557,12 @@ class BackupService {
         final content = contentMap[t.id];
         final hasContent = content != null;
         final publishedDate = content?.publishedAt?.toIso8601String() ?? '';
-        final totalViews = content != null ? (metricsViewsMap[content.id] ?? 0) : 0;
-        final totalSaves = content != null ? (metricsSavesMap[content.id] ?? 0) : 0;
+        final totalViews = content != null
+            ? (metricsViewsMap[content.id] ?? 0)
+            : 0;
+        final totalSaves = content != null
+            ? (metricsSavesMap[content.id] ?? 0)
+            : 0;
 
         final row = [
           _escapeCsv(t.id),
@@ -478,12 +591,21 @@ class BackupService {
 
       return Success(buffer.toString());
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to generate CSV export: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to generate CSV export: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   String _escapeCsv(String val) {
-    if (val.contains(',') || val.contains('"') || val.contains('\n') || val.contains('\r')) {
+    if (val.contains(',') ||
+        val.contains('"') ||
+        val.contains('\n') ||
+        val.contains('\r')) {
       final escaped = val.replaceAll('"', '""');
       return '"$escaped"';
     }

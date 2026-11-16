@@ -16,16 +16,26 @@ class SourceRepositoryImpl implements SourceRepository {
 
   @override
   Stream<List<SourceEntity>> watchSourcesForTreasure(String treasureId) {
-    return _dao.watchSources(treasureId).map((rows) => rows.map(_mapToEntity).toList());
+    return _dao
+        .watchSources(treasureId)
+        .map((rows) => rows.map(_mapToEntity).toList());
   }
 
   @override
-  Future<Result<List<SourceEntity>, Failure>> getSourcesForTreasure(String treasureId) async {
+  Future<Result<List<SourceEntity>, Failure>> getSourcesForTreasure(
+    String treasureId,
+  ) async {
     try {
       final rows = await _dao.getSources(treasureId);
       return Success(rows.map(_mapToEntity).toList());
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to fetch sources: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to fetch sources: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -48,7 +58,13 @@ class SourceRepositoryImpl implements SourceRepository {
       await _dao.insertSource(companion);
       return Success(id);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to insert source: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to insert source: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -58,7 +74,13 @@ class SourceRepositoryImpl implements SourceRepository {
       await _dao.deleteSource(id);
       return const Success(null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to delete source: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to delete source: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -77,4 +99,3 @@ class SourceRepositoryImpl implements SourceRepository {
     );
   }
 }
-

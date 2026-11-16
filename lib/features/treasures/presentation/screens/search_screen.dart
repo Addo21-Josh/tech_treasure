@@ -60,7 +60,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           autofocus: false,
           decoration: InputDecoration(
             hintText: 'Search offline (title, problem, specs)...',
-            prefixIcon: const Icon(Icons.search_rounded, color: AppColors.treasureGold),
+            prefixIcon: const Icon(
+              Icons.search_rounded,
+              color: AppColors.treasureGold,
+            ),
             suffixIcon: _searchController.text.isNotEmpty
                 ? IconButton(
                     icon: const Icon(Icons.clear_rounded, size: 18),
@@ -149,7 +152,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           Icon(
                             Icons.search_off_rounded,
                             size: 56,
-                            color: AppColors.darkTextMuted.withValues(alpha: 0.5),
+                            color: AppColors.darkTextMuted.withValues(
+                              alpha: 0.5,
+                            ),
                           ),
                           const SizedBox(height: 16),
                           Text(

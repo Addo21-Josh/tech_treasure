@@ -14,7 +14,8 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
   @override
   Stream<List<CategoryEntity>> watchCategories() {
-    return (_db.select(_db.categories)..orderBy([(c) => OrderingTerm.asc(c.name)]))
+    return (_db.select(_db.categories)
+          ..orderBy([(c) => OrderingTerm.asc(c.name)]))
         .watch()
         .map((rows) => rows.map(_mapToEntity).toList());
   }
@@ -22,33 +23,53 @@ class CategoryRepositoryImpl implements CategoryRepository {
   @override
   Future<Result<List<CategoryEntity>, Failure>> getCategories() async {
     try {
-      final rows = await (_db.select(_db.categories)..orderBy([(c) => OrderingTerm.asc(c.name)])).get();
+      final rows = await (_db.select(
+        _db.categories,
+      )..orderBy([(c) => OrderingTerm.asc(c.name)])).get();
       return Success(rows.map(_mapToEntity).toList());
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to load categories: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to load categories: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   @override
   Future<Result<CategoryEntity, Failure>> getCategoryById(String id) async {
     try {
-      final row = await (_db.select(_db.categories)..where((c) => c.id.equals(id))).getSingleOrNull();
+      final row = await (_db.select(
+        _db.categories,
+      )..where((c) => c.id.equals(id))).getSingleOrNull();
       if (row == null) {
         return FailureResult(NotFoundFailure('Category $id not found'));
       }
       return Success(_mapToEntity(row));
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to load category: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to load category: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   @override
-  Future<Result<String, Failure>> createCategory(CategoryEntity category) async {
+  Future<Result<String, Failure>> createCategory(
+    CategoryEntity category,
+  ) async {
     try {
       final id = category.id.isNotEmpty ? category.id : _uuid.v4();
       final now = DateTime.now();
 
-      await _db.into(_db.categories).insert(
+      await _db
+          .into(_db.categories)
+          .insert(
             CategoriesCompanion.insert(
               id: id,
               name: category.name,
@@ -60,7 +81,13 @@ class CategoryRepositoryImpl implements CategoryRepository {
           );
       return Success(id);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to create category: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to create category: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -75,4 +102,3 @@ class CategoryRepositoryImpl implements CategoryRepository {
     );
   }
 }
-

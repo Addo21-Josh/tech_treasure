@@ -56,7 +56,10 @@ class DashboardScreen extends ConsumerWidget {
             // Real-Time Metrics Overview Card
             statusCountsAsync.when(
               data: (counts) {
-                final total = counts.values.fold<int>(0, (prev, element) => prev + element);
+                final total = counts.values.fold<int>(
+                  0,
+                  (prev, element) => prev + element,
+                );
 
                 return Container(
                   padding: const EdgeInsets.all(20),
@@ -77,7 +80,11 @@ class DashboardScreen extends ConsumerWidget {
                         children: [
                           Row(
                             children: [
-                              const Icon(Icons.diamond_rounded, color: AppColors.treasureGold, size: 28),
+                              const Icon(
+                                Icons.diamond_rounded,
+                                color: AppColors.treasureGold,
+                                size: 28,
+                              ),
                               const SizedBox(width: 8),
                               Text(
                                 '$total ${total == 1 ? "Treasure" : "Treasures"}',
@@ -89,7 +96,10 @@ class DashboardScreen extends ConsumerWidget {
                             ],
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: AppColors.treasureGoldContainerDark,
                               borderRadius: BorderRadius.circular(12),
@@ -118,8 +128,11 @@ class DashboardScreen extends ConsumerWidget {
                             '💡 ${counts[TreasureStatus.idea] ?? 0} Ideas',
                             const Color(0xFFFBBF24),
                             onTap: () {
-                              ref.read(treasureFilterProvider.notifier).state =
-                                  const TreasureFilter(status: TreasureStatus.idea);
+                              ref
+                                  .read(treasureFilterProvider.notifier)
+                                  .state = const TreasureFilter(
+                                status: TreasureStatus.idea,
+                              );
                               context.go('/treasures');
                             },
                           ),
@@ -127,8 +140,11 @@ class DashboardScreen extends ConsumerWidget {
                             '🔍 ${counts[TreasureStatus.researching] ?? 0} Researching',
                             const Color(0xFF38BDF8),
                             onTap: () {
-                              ref.read(treasureFilterProvider.notifier).state =
-                                  const TreasureFilter(status: TreasureStatus.researching);
+                              ref
+                                  .read(treasureFilterProvider.notifier)
+                                  .state = const TreasureFilter(
+                                status: TreasureStatus.researching,
+                              );
                               context.go('/treasures');
                             },
                           ),
@@ -136,8 +152,11 @@ class DashboardScreen extends ConsumerWidget {
                             '🧪 ${counts[TreasureStatus.testing] ?? 0} Testing',
                             const Color(0xFFC084FC),
                             onTap: () {
-                              ref.read(treasureFilterProvider.notifier).state =
-                                  const TreasureFilter(status: TreasureStatus.testing);
+                              ref
+                                  .read(treasureFilterProvider.notifier)
+                                  .state = const TreasureFilter(
+                                status: TreasureStatus.testing,
+                              );
                               context.go('/treasures');
                             },
                           ),
@@ -145,8 +164,11 @@ class DashboardScreen extends ConsumerWidget {
                             '✅ ${counts[TreasureStatus.verified] ?? 0} Verified',
                             const Color(0xFF4ADE80),
                             onTap: () {
-                              ref.read(treasureFilterProvider.notifier).state =
-                                  const TreasureFilter(status: TreasureStatus.verified);
+                              ref
+                                  .read(treasureFilterProvider.notifier)
+                                  .state = const TreasureFilter(
+                                status: TreasureStatus.verified,
+                              );
                               context.go('/treasures');
                             },
                           ),
@@ -154,8 +176,11 @@ class DashboardScreen extends ConsumerWidget {
                             '🎬 ${counts[TreasureStatus.readyToCreate] ?? 0} Ready',
                             const Color(0xFF818CF8),
                             onTap: () {
-                              ref.read(treasureFilterProvider.notifier).state =
-                                  const TreasureFilter(status: TreasureStatus.readyToCreate);
+                              ref
+                                  .read(treasureFilterProvider.notifier)
+                                  .state = const TreasureFilter(
+                                status: TreasureStatus.readyToCreate,
+                              );
                               context.go('/treasures');
                             },
                           ),
@@ -163,8 +188,11 @@ class DashboardScreen extends ConsumerWidget {
                             '🚀 ${counts[TreasureStatus.published] ?? 0} Published',
                             const Color(0xFF34D399),
                             onTap: () {
-                              ref.read(treasureFilterProvider.notifier).state =
-                                  const TreasureFilter(status: TreasureStatus.published);
+                              ref
+                                  .read(treasureFilterProvider.notifier)
+                                  .state = const TreasureFilter(
+                                status: TreasureStatus.published,
+                              );
                               context.go('/treasures');
                             },
                           ),
@@ -185,7 +213,9 @@ class DashboardScreen extends ConsumerWidget {
             // Quick Actions Section
             Text(
               'Quick Actions',
-              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(height: 12),
             Row(
@@ -246,28 +276,42 @@ class DashboardScreen extends ConsumerWidget {
                     decoration: BoxDecoration(
                       color: theme.colorScheme.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.treasureGold.withValues(alpha: 0.3)),
+                      border: Border.all(
+                        color: AppColors.treasureGold.withValues(alpha: 0.3),
+                      ),
                     ),
                     child: Column(
                       children: [
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: AppColors.treasureGold.withValues(alpha: 0.15),
+                            color: AppColors.treasureGold.withValues(
+                              alpha: 0.15,
+                            ),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.diamond_outlined, color: AppColors.treasureGold, size: 36),
+                          child: const Icon(
+                            Icons.diamond_outlined,
+                            color: AppColors.treasureGold,
+                            size: 36,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         const Text(
                           'No Discoveries Saved Yet',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                         const SizedBox(height: 6),
                         const Text(
                           'Capture your first tech tip or trick in <5 seconds. Organize, verify on devices, and script for social platforms.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, color: AppColors.darkTextSecondary),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.darkTextSecondary,
+                          ),
                         ),
                         const SizedBox(height: 16),
                         FilledButton.icon(
@@ -294,7 +338,11 @@ class DashboardScreen extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.local_fire_department_rounded, color: Colors.deepOrangeAccent, size: 20),
+                        const Icon(
+                          Icons.local_fire_department_rounded,
+                          color: Colors.deepOrangeAccent,
+                          size: 20,
+                        ),
                         const SizedBox(width: 6),
                         Text(
                           'TREASURE SPOTLIGHT',
@@ -317,7 +365,11 @@ class DashboardScreen extends ConsumerWidget {
                         decoration: BoxDecoration(
                           color: theme.colorScheme.surfaceContainerLow,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: AppColors.treasureGold.withValues(alpha: 0.4)),
+                          border: Border.all(
+                            color: AppColors.treasureGold.withValues(
+                              alpha: 0.4,
+                            ),
+                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,7 +386,10 @@ class DashboardScreen extends ConsumerWidget {
                                       color: theme.colorScheme.primary,
                                     ),
                                   ),
-                                StarRatingInput(rating: featured.contentPotential, size: 14),
+                                StarRatingInput(
+                                  rating: featured.contentPotential,
+                                  size: 14,
+                                ),
                               ],
                             ),
                             const SizedBox(height: 8),
@@ -392,7 +447,11 @@ class DashboardScreen extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.auto_awesome, color: AppColors.treasureGold, size: 20),
+                      const Icon(
+                        Icons.auto_awesome,
+                        color: AppColors.treasureGold,
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         'The Creator Loop',

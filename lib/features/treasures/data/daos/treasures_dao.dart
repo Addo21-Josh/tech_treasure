@@ -8,10 +8,7 @@ class TreasureWithCategory {
   final Treasure treasure;
   final Category? category;
 
-  const TreasureWithCategory({
-    required this.treasure,
-    this.category,
-  });
+  const TreasureWithCategory({required this.treasure, this.category});
 }
 
 /// Data Access Object handling SQLite queries for Treasures.
@@ -42,7 +39,9 @@ class TreasuresDao {
   }
 
   /// Fetches a one-time list of treasures with joined category.
-  Future<List<TreasureWithCategory>> getTreasures({TreasureFilter? filter}) async {
+  Future<List<TreasureWithCategory>> getTreasures({
+    TreasureFilter? filter,
+  }) async {
     final query = db.select(db.treasures).join([
       leftOuterJoin(
         db.categories,
@@ -96,7 +95,9 @@ class TreasuresDao {
 
   /// Toggles the isFavorite boolean on a treasure.
   Future<bool> toggleFavorite(String id) async {
-    final current = await (db.select(db.treasures)..where((t) => t.id.equals(id))).getSingleOrNull();
+    final current = await (db.select(
+      db.treasures,
+    )..where((t) => t.id.equals(id))).getSingleOrNull();
     if (current == null) return false;
 
     final newStatus = !current.isFavorite;
@@ -163,21 +164,30 @@ class TreasuresDao {
       final ftsQuery = clean.replaceAll(RegExp(r'[^a-zA-Z0-9_\*]'), ' ').trim();
       if (ftsQuery.isNotEmpty) {
         final ftsSearchTerm = '$ftsQuery*';
-        final rows = await db.customSelect(
-          'SELECT id FROM treasures_fts WHERE treasures_fts MATCH ?',
-          variables: [Variable.withString(ftsSearchTerm)],
-        ).get();
+        final rows = await db
+            .customSelect(
+              'SELECT id FROM treasures_fts WHERE treasures_fts MATCH ?',
+              variables: [Variable.withString(ftsSearchTerm)],
+            )
+            .get();
 
         if (rows.isNotEmpty) {
           final ids = rows.map((r) => r.read<String>('id')).toList();
           final query = db.select(db.treasures).join([
-            leftOuterJoin(db.categories, db.categories.id.equalsExp(db.treasures.categoryId)),
+            leftOuterJoin(
+              db.categories,
+              db.categories.id.equalsExp(db.treasures.categoryId),
+            ),
           ])..where(db.treasures.id.isIn(ids));
           final results = await query.get();
-          return results.map((row) => TreasureWithCategory(
-                treasure: row.readTable(db.treasures),
-                category: row.readTableOrNull(db.categories),
-              )).toList();
+          return results
+              .map(
+                (row) => TreasureWithCategory(
+                  treasure: row.readTable(db.treasures),
+                  category: row.readTableOrNull(db.categories),
+                ),
+              )
+              .toList();
         }
       }
     } catch (_) {
@@ -212,7 +222,11 @@ class TreasuresDao {
       query.where(db.treasures.noAppNeeded.equals(filter.noAppNeeded!));
     }
     if (filter.minPotential != null) {
-      query.where(db.treasures.contentPotential.isBiggerOrEqualValue(filter.minPotential!));
+      query.where(
+        db.treasures.contentPotential.isBiggerOrEqualValue(
+          filter.minPotential!,
+        ),
+      );
     }
     if (filter.searchQuery != null && filter.searchQuery!.trim().isNotEmpty) {
       final searchPattern = '%${filter.searchQuery!.trim()}%';
@@ -243,4 +257,3 @@ class TreasuresDao {
     );
   }
 }
-

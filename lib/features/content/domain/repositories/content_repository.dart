@@ -9,13 +9,18 @@ abstract class ContentRepository {
   Stream<ContentEntity?> watchContentForTreasure(String treasureId);
 
   /// Fetch current content script/details for a specific treasure.
-  Future<Result<ContentEntity?, Failure>> getContentForTreasure(String treasureId);
+  Future<Result<ContentEntity?, Failure>> getContentForTreasure(
+    String treasureId,
+  );
 
   /// Create or update a content deliverable. Returns the content ID.
   Future<Result<String, Failure>> saveContent(ContentEntity content);
 
   /// Update the workflow status of a content deliverable.
-  Future<Result<void, Failure>> updateContentStatus(String contentId, String status);
+  Future<Result<void, Failure>> updateContentStatus(
+    String contentId,
+    String status,
+  );
 
   /// Record an empirical performance metrics snapshot.
   Future<Result<String, Failure>> recordMetrics(ContentMetricsEntity metrics);
@@ -24,9 +29,10 @@ abstract class ContentRepository {
   Stream<List<ContentMetricsEntity>> watchMetricsForContent(String contentId);
 
   /// Get historical performance metrics snapshots for a content deliverable.
-  Future<Result<List<ContentMetricsEntity>, Failure>> getMetricsForContent(String contentId);
+  Future<Result<List<ContentMetricsEntity>, Failure>> getMetricsForContent(
+    String contentId,
+  );
 
   /// Remove a content deliverable.
   Future<Result<void, Failure>> deleteContent(String id);
 }
-

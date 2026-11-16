@@ -16,21 +16,33 @@ class TestRepositoryImpl implements TestRepository {
 
   @override
   Stream<List<TestRecordEntity>> watchTestsForTreasure(String treasureId) {
-    return _dao.watchTests(treasureId).map((rows) => rows.map(_mapToEntity).toList());
+    return _dao
+        .watchTests(treasureId)
+        .map((rows) => rows.map(_mapToEntity).toList());
   }
 
   @override
-  Future<Result<List<TestRecordEntity>, Failure>> getTestsForTreasure(String treasureId) async {
+  Future<Result<List<TestRecordEntity>, Failure>> getTestsForTreasure(
+    String treasureId,
+  ) async {
     try {
       final rows = await _dao.getTests(treasureId);
       return Success(rows.map(_mapToEntity).toList());
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to fetch test records: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to fetch test records: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   @override
-  Future<Result<String, Failure>> addTestRecord(TestRecordEntity testRecord) async {
+  Future<Result<String, Failure>> addTestRecord(
+    TestRecordEntity testRecord,
+  ) async {
     try {
       final id = testRecord.id.isNotEmpty ? testRecord.id : _uuid.v4();
 
@@ -48,7 +60,13 @@ class TestRepositoryImpl implements TestRepository {
       await _dao.insertTestRecord(companion);
       return Success(id);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to add test record: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to add test record: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -58,7 +76,13 @@ class TestRepositoryImpl implements TestRepository {
       await _dao.deleteTestRecord(id);
       return const Success(null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to delete test record: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to delete test record: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -78,4 +102,3 @@ class TestRepositoryImpl implements TestRepository {
     );
   }
 }
-

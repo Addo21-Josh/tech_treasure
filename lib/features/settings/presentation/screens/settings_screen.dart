@@ -40,9 +40,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
       switch (result) {
         case Success(data: final jsonString):
-          final timestamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+          final timestamp = DateFormat(
+            'yyyyMMdd_HHmmss',
+          ).format(DateTime.now());
           final tempDir = await getTemporaryDirectory();
-          final file = File('${tempDir.path}/tech_treasure_backup_$timestamp.json');
+          final file = File(
+            '${tempDir.path}/tech_treasure_backup_$timestamp.json',
+          );
           await file.writeAsString(jsonString);
 
           await Share.shareXFiles(
@@ -116,7 +120,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
-  void _showRestoreConfirmationDialog(BackupSummary summary, String jsonContent) {
+  void _showRestoreConfirmationDialog(
+    BackupSummary summary,
+    String jsonContent,
+  ) {
     showDialog<void>(
       context: context,
       builder: (dialogCtx) => AlertDialog(
@@ -124,9 +131,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Row(
           children: [
-            Icon(Icons.warning_amber_rounded, color: AppColors.accentDanger, size: 26),
+            Icon(
+              Icons.warning_amber_rounded,
+              color: AppColors.accentDanger,
+              size: 26,
+            ),
             SizedBox(width: 10),
-            Text('Confirm Restore', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text(
+              'Confirm Restore',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ],
         ),
         content: SingleChildScrollView(
@@ -136,7 +150,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             children: [
               const Text(
                 'A valid Tech Treasure v1.0 backup was found. Here is what will be imported:',
-                style: TextStyle(fontSize: 13, color: AppColors.darkTextSecondary),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppColors.darkTextSecondary,
+                ),
               ),
               const SizedBox(height: 14),
               Container(
@@ -149,11 +166,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 child: Column(
                   children: [
                     _buildSummaryRow('Treasures', '${summary.totalTreasures}'),
-                    _buildSummaryRow('Categories', '${summary.totalCategories}'),
-                    _buildSummaryRow('Sources & Links', '${summary.totalSources}'),
-                    _buildSummaryRow('Empirical Tests', '${summary.totalTestRecords}'),
-                    _buildSummaryRow('Content Drafts', '${summary.totalContents}'),
-                    _buildSummaryRow('Metrics Records', '${summary.totalMetrics}'),
+                    _buildSummaryRow(
+                      'Categories',
+                      '${summary.totalCategories}',
+                    ),
+                    _buildSummaryRow(
+                      'Sources & Links',
+                      '${summary.totalSources}',
+                    ),
+                    _buildSummaryRow(
+                      'Empirical Tests',
+                      '${summary.totalTestRecords}',
+                    ),
+                    _buildSummaryRow(
+                      'Content Drafts',
+                      '${summary.totalContents}',
+                    ),
+                    _buildSummaryRow(
+                      'Metrics Records',
+                      '${summary.totalMetrics}',
+                    ),
                   ],
                 ),
               ),
@@ -163,17 +195,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.accentDanger.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.accentDanger.withValues(alpha: 0.3)),
+                  border: Border.all(
+                    color: AppColors.accentDanger.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.info_outline_rounded, color: AppColors.accentDanger, size: 18),
+                    Icon(
+                      Icons.info_outline_rounded,
+                      color: AppColors.accentDanger,
+                      size: 18,
+                    ),
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'WARNING: Restoring will overwrite and replace all current local database records in an atomic transaction.',
-                        style: TextStyle(fontSize: 11, color: AppColors.accentDanger, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: AppColors.accentDanger,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
@@ -204,7 +246,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  Future<void> _executeRestore(String jsonContent, BackupSummary summary) async {
+  Future<void> _executeRestore(
+    String jsonContent,
+    BackupSummary summary,
+  ) async {
     _setLoading(true, 'Restoring database records in atomic transaction...');
     try {
       final backupService = ref.read(backupServiceProvider);
@@ -217,7 +262,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         case Success():
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('🎉 Restore complete! ${summary.totalTreasures} treasures restored.'),
+              content: Text(
+                '🎉 Restore complete! ${summary.totalTreasures} treasures restored.',
+              ),
               backgroundColor: AppColors.accentSuccess,
               behavior: SnackBarBehavior.floating,
             ),
@@ -243,7 +290,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
       switch (result) {
         case Success(data: final csvString):
-          final timestamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+          final timestamp = DateFormat(
+            'yyyyMMdd_HHmmss',
+          ).format(DateTime.now());
           final tempDir = await getTemporaryDirectory();
           final file = File('${tempDir.path}/tech_treasures_$timestamp.csv');
           await file.writeAsString(csvString);
@@ -251,7 +300,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           await Share.shareXFiles(
             [XFile(file.path, mimeType: 'text/csv')],
             subject: 'Tech Treasure CSV Export ($timestamp)',
-            text: 'Tech Treasure flattened CSV export for Google Sheets or Excel.',
+            text:
+                'Tech Treasure flattened CSV export for Google Sheets or Excel.',
           );
 
           if (mounted) {
@@ -283,9 +333,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Row(
           children: [
-            Icon(Icons.offline_bolt_rounded, color: AppColors.accentSuccess, size: 24),
+            Icon(
+              Icons.offline_bolt_rounded,
+              color: AppColors.accentSuccess,
+              size: 24,
+            ),
             SizedBox(width: 10),
-            Text('Offline Guarantee', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text(
+              'Offline Guarantee',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ],
         ),
         content: const Column(
@@ -294,13 +351,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           children: [
             Text(
               'Tech Treasure is engineered with strict zero-telemetry principles:',
-              style: TextStyle(fontSize: 13, color: AppColors.darkTextSecondary),
+              style: TextStyle(
+                fontSize: 13,
+                color: AppColors.darkTextSecondary,
+              ),
             ),
             SizedBox(height: 12),
-            _BulletPoint(text: '100% of data is stored in your device\'s local SQLite database.'),
-            _BulletPoint(text: 'No cloud accounts, no third-party trackers, and no telemetry SDKs.'),
-            _BulletPoint(text: 'Full-text search (FTS5) runs sub-millisecond on-device without remote calls.'),
-            _BulletPoint(text: 'You own your data completely via standard JSON & CSV exports.'),
+            _BulletPoint(
+              text:
+                  '100% of data is stored in your device\'s local SQLite database.',
+            ),
+            _BulletPoint(
+              text:
+                  'No cloud accounts, no third-party trackers, and no telemetry SDKs.',
+            ),
+            _BulletPoint(
+              text:
+                  'Full-text search (FTS5) runs sub-millisecond on-device without remote calls.',
+            ),
+            _BulletPoint(
+              text:
+                  'You own your data completely via standard JSON & CSV exports.',
+            ),
           ],
         ),
         actions: [
@@ -321,20 +393,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Row(
           children: [
-            Icon(Icons.diamond_rounded, color: AppColors.treasureGold, size: 24),
+            Icon(
+              Icons.diamond_rounded,
+              color: AppColors.treasureGold,
+              size: 24,
+            ),
             SizedBox(width: 10),
-            Text('Tech Treasure', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text(
+              'Tech Treasure',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ],
         ),
         content: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Version 1.0.0 (Production Release)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            Text(
+              'Version 1.0.0 (Production Release)',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ),
             SizedBox(height: 8),
             Text(
               'A personal offline-first technology knowledge and content-production database for creators, researchers, and tech enthusiasts.',
-              style: TextStyle(fontSize: 13, color: AppColors.darkTextSecondary),
+              style: TextStyle(
+                fontSize: 13,
+                color: AppColors.darkTextSecondary,
+              ),
             ),
             SizedBox(height: 12),
             Text(
@@ -361,12 +446,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Row(
           children: [
-            const Icon(Icons.error_outline_rounded, color: AppColors.accentDanger, size: 24),
+            const Icon(
+              Icons.error_outline_rounded,
+              color: AppColors.accentDanger,
+              size: 24,
+            ),
             const SizedBox(width: 10),
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ],
         ),
-        content: Text(message, style: const TextStyle(fontSize: 13, color: AppColors.darkTextSecondary)),
+        content: Text(
+          message,
+          style: const TextStyle(
+            fontSize: 13,
+            color: AppColors.darkTextSecondary,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
@@ -383,8 +481,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontSize: 12, color: AppColors.darkTextSecondary)),
-          Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.darkTextPrimary)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              color: AppColors.darkTextSecondary,
+            ),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: AppColors.darkTextPrimary,
+            ),
+          ),
         ],
       ),
     );
@@ -395,9 +506,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return Stack(
       children: [
         Scaffold(
-          appBar: AppBar(
-            title: const Text('Settings & Data Portability'),
-          ),
+          appBar: AppBar(title: const Text('Settings & Data Portability')),
           body: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             children: [
@@ -407,7 +516,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 context,
                 icon: Icons.upload_file_rounded,
                 title: 'Export JSON Backup',
-                subtitle: 'Complete database backup with SHA-256 integrity checksum',
+                subtitle:
+                    'Complete database backup with SHA-256 integrity checksum',
                 onTap: _exportJsonBackup,
               ),
               _buildSettingsTile(
@@ -421,7 +531,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 context,
                 icon: Icons.table_chart_rounded,
                 title: 'Export CSV Spreadsheet',
-                subtitle: 'RFC 4180 flattened export for Google Sheets or Excel',
+                subtitle:
+                    'RFC 4180 flattened export for Google Sheets or Excel',
                 onTap: _exportCsvSpreadsheet,
               ),
               const SizedBox(height: 24),
@@ -439,11 +550,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 context,
                 icon: Icons.fingerprint_rounded,
                 title: 'Biometric App Lock',
-                subtitle: 'Secured via device hardware authentication (v1.1 roadmap)',
-                trailing: const Text('Roadmap', style: TextStyle(fontSize: 12, color: AppColors.treasureGold)),
+                subtitle:
+                    'Secured via device hardware authentication (v1.1 roadmap)',
+                trailing: const Text(
+                  'Roadmap',
+                  style: TextStyle(fontSize: 12, color: AppColors.treasureGold),
+                ),
                 onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Biometric lock scheduled for v1.1 release!')),
+                    const SnackBar(
+                      content: Text(
+                        'Biometric lock scheduled for v1.1 release!',
+                      ),
+                    ),
                   );
                 },
               ),
@@ -469,17 +588,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             child: Center(
               child: Card(
                 color: AppColors.darkCard,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                    vertical: 24,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const CircularProgressIndicator(color: AppColors.treasureGold),
+                      const CircularProgressIndicator(
+                        color: AppColors.treasureGold,
+                      ),
                       const SizedBox(height: 16),
                       Text(
                         _loadingMessage ?? 'Processing...',
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
@@ -523,9 +652,24 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ),
       child: ListTile(
         leading: Icon(icon, color: AppColors.treasureGold),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-        subtitle: Text(subtitle, style: const TextStyle(fontSize: 12, color: AppColors.darkTextSecondary)),
-        trailing: trailing ?? const Icon(Icons.chevron_right_rounded, color: AppColors.darkTextMuted, size: 20),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: const TextStyle(
+            fontSize: 12,
+            color: AppColors.darkTextSecondary,
+          ),
+        ),
+        trailing:
+            trailing ??
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.darkTextMuted,
+              size: 20,
+            ),
         onTap: onTap,
       ),
     );
@@ -544,9 +688,18 @@ class _BulletPoint extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('• ', style: TextStyle(color: AppColors.treasureGold, fontSize: 16)),
+          const Text(
+            '• ',
+            style: TextStyle(color: AppColors.treasureGold, fontSize: 16),
+          ),
           Expanded(
-            child: Text(text, style: const TextStyle(fontSize: 12, color: AppColors.darkTextSecondary)),
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppColors.darkTextSecondary,
+              ),
+            ),
           ),
         ],
       ),

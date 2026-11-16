@@ -21,7 +21,8 @@ class TechTreasureApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.dark, // Default to Digital Treasure Chest Dark aesthetic
+      themeMode:
+          ThemeMode.dark, // Default to Digital Treasure Chest Dark aesthetic
       routerConfig: router,
     );
   }

@@ -11,10 +11,7 @@ import '../theme/app_colors.dart';
 class MainShellScaffold extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
 
-  const MainShellScaffold({
-    super.key,
-    required this.navigationShell,
-  });
+  const MainShellScaffold({super.key, required this.navigationShell});
 
   @override
   ConsumerState<MainShellScaffold> createState() => _MainShellScaffoldState();
@@ -35,7 +32,9 @@ class _MainShellScaffoldState extends ConsumerState<MainShellScaffold> {
             context,
             ref,
             initialNotes: text,
-            initialTitle: text.startsWith('http') ? 'Resource: ${Uri.tryParse(text)?.host ?? "Web Link"}' : null,
+            initialTitle: text.startsWith('http')
+                ? 'Resource: ${Uri.tryParse(text)?.host ?? "Web Link"}'
+                : null,
           );
         },
       );
@@ -92,11 +91,18 @@ class _MainShellScaffoldState extends ConsumerState<MainShellScaffold> {
                   children: [
                     const Row(
                       children: [
-                        Icon(Icons.lightbulb_rounded, color: AppColors.treasureGold, size: 22),
+                        Icon(
+                          Icons.lightbulb_rounded,
+                          color: AppColors.treasureGold,
+                          size: 22,
+                        ),
                         SizedBox(width: 8),
                         Text(
                           'Quick Capture Discovery',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -124,7 +130,10 @@ class _MainShellScaffoldState extends ConsumerState<MainShellScaffold> {
                       initialValue: selectedCategoryId,
                       decoration: const InputDecoration(labelText: 'Category'),
                       items: categories.map((c) {
-                        return DropdownMenuItem(value: c.id, child: Text(c.name));
+                        return DropdownMenuItem(
+                          value: c.id,
+                          child: Text(c.name),
+                        );
                       }).toList(),
                       onChanged: (val) => selectedCategoryId = val,
                     );
@@ -158,7 +167,9 @@ class _MainShellScaffoldState extends ConsumerState<MainShellScaffold> {
                         final title = titleController.text.trim();
                         if (title.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Please enter a title')),
+                            const SnackBar(
+                              content: Text('Please enter a title'),
+                            ),
                           );
                           return;
                         }
@@ -167,7 +178,8 @@ class _MainShellScaffoldState extends ConsumerState<MainShellScaffold> {
                         final treasure = TreasureEntity(
                           id: '',
                           title: title,
-                          shortDescription: notesController.text.trim().isNotEmpty
+                          shortDescription:
+                              notesController.text.trim().isNotEmpty
                               ? notesController.text.trim()
                               : 'Captured via Quick Capture',
                           whyUseful: notesController.text.trim().isNotEmpty
@@ -178,7 +190,9 @@ class _MainShellScaffoldState extends ConsumerState<MainShellScaffold> {
                           updatedAt: now,
                         );
 
-                        await modalRef.read(treasureRepositoryProvider).createTreasure(treasure);
+                        await modalRef
+                            .read(treasureRepositoryProvider)
+                            .createTreasure(treasure);
 
                         if (context.mounted) {
                           Navigator.of(modalContext).pop();
@@ -195,8 +209,13 @@ class _MainShellScaffoldState extends ConsumerState<MainShellScaffold> {
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.treasureGold,
                         foregroundColor: const Color(0xFF451A03),
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ],
@@ -252,4 +271,3 @@ class _MainShellScaffoldState extends ConsumerState<MainShellScaffold> {
     );
   }
 }
-

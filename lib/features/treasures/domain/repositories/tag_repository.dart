@@ -11,12 +11,16 @@ abstract class TagRepository {
   Future<Result<List<TagEntity>, Failure>> getAllTags();
 
   /// Gets tags assigned to a specific treasure.
-  Future<Result<List<TagEntity>, Failure>> getTagsForTreasure(String treasureId);
+  Future<Result<List<TagEntity>, Failure>> getTagsForTreasure(
+    String treasureId,
+  );
 
   /// Synchronizes the set of tags for a treasure (creating new tags if needed).
-  Future<Result<void, Failure>> setTagsForTreasure(String treasureId, List<String> tagNames);
+  Future<Result<void, Failure>> setTagsForTreasure(
+    String treasureId,
+    List<String> tagNames,
+  );
 
   /// Retrieves an existing tag by name or creates it if it does not exist.
   Future<Result<TagEntity, Failure>> getOrCreateTag(String name);
 }
-

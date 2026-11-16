@@ -60,7 +60,10 @@ class ContentEntity {
     final fullText = (script != null && script!.trim().isNotEmpty)
         ? script!
         : '${hook ?? ''} ${problem ?? ''} ${demonstration ?? ''} ${cta ?? ''}';
-    final words = fullText.trim().split(RegExp(r'\s+')).where((s) => s.isNotEmpty);
+    final words = fullText
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((s) => s.isNotEmpty);
     return words.length;
   }
 
@@ -116,4 +119,3 @@ class ContentEntity {
     );
   }
 }
-

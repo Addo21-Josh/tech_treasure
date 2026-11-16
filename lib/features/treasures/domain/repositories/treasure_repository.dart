@@ -10,7 +10,9 @@ abstract class TreasureRepository {
   Stream<List<TreasureEntity>> watchTreasures({TreasureFilter? filter});
 
   /// Fetches a one-time list of treasures.
-  Future<Result<List<TreasureEntity>, Failure>> getTreasures({TreasureFilter? filter});
+  Future<Result<List<TreasureEntity>, Failure>> getTreasures({
+    TreasureFilter? filter,
+  });
 
   /// Fetches a single treasure by its unique identifier.
   Future<Result<TreasureEntity, Failure>> getTreasureById(String id);
@@ -40,6 +42,7 @@ abstract class TreasureRepository {
   Future<Result<int, Failure>> getTotalCount();
 
   /// Searches treasures with sub-millisecond full-text matching.
-  Future<Result<List<TreasureEntity>, Failure>> searchTreasures(String queryText);
+  Future<Result<List<TreasureEntity>, Failure>> searchTreasures(
+    String queryText,
+  );
 }
-

@@ -8,4 +8,3 @@ abstract class CategoryRepository {
   Future<Result<CategoryEntity, Failure>> getCategoryById(String id);
   Future<Result<String, Failure>> createCategory(CategoryEntity category);
 }
-

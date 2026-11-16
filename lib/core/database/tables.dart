@@ -40,7 +40,8 @@ class Treasures extends Table {
   TextColumn get stepsJson => text().nullable()();
   TextColumn get limitations => text().nullable()();
   TextColumn get securityNotes => text().nullable()();
-  TextColumn get researchStatus => text().withDefault(const Constant('notResearched'))();
+  TextColumn get researchStatus =>
+      text().withDefault(const Constant('notResearched'))();
   BoolColumn get isVerified => boolean().withDefault(const Constant(false))();
   BoolColumn get isFavorite => boolean().withDefault(const Constant(false))();
   BoolColumn get noAppNeeded => boolean().withDefault(const Constant(false))();
@@ -56,7 +57,8 @@ class Treasures extends Table {
 class TreasureTags extends Table {
   TextColumn get treasureId =>
       text().references(Treasures, #id, onDelete: KeyAction.cascade)();
-  TextColumn get tagId => text().references(Tags, #id, onDelete: KeyAction.cascade)();
+  TextColumn get tagId =>
+      text().references(Tags, #id, onDelete: KeyAction.cascade)();
 
   @override
   Set<Column> get primaryKey => {treasureId, tagId};
@@ -131,4 +133,3 @@ class ContentMetrics extends Table {
   @override
   Set<Column> get primaryKey => {id};
 }
-

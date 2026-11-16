@@ -21,27 +21,46 @@ class TagRepositoryImpl implements TagRepository {
       final rows = await _dao.getAllTags();
       return Success(rows.map(_mapToEntity).toList());
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to fetch tags: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure('Failed to fetch tags: $e', cause: e, stackTrace: st),
+      );
     }
   }
 
   @override
-  Future<Result<List<TagEntity>, Failure>> getTagsForTreasure(String treasureId) async {
+  Future<Result<List<TagEntity>, Failure>> getTagsForTreasure(
+    String treasureId,
+  ) async {
     try {
       final rows = await _dao.getTagsForTreasure(treasureId);
       return Success(rows.map(_mapToEntity).toList());
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to fetch tags for treasure: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to fetch tags for treasure: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
   @override
-  Future<Result<void, Failure>> setTagsForTreasure(String treasureId, List<String> tagNames) async {
+  Future<Result<void, Failure>> setTagsForTreasure(
+    String treasureId,
+    List<String> tagNames,
+  ) async {
     try {
       await _dao.setTagsForTreasure(treasureId, tagNames);
       return const Success(null);
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to associate tags: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure(
+          'Failed to associate tags: $e',
+          cause: e,
+          stackTrace: st,
+        ),
+      );
     }
   }
 
@@ -51,16 +70,13 @@ class TagRepositoryImpl implements TagRepository {
       final tag = await _dao.getOrCreateTag(name);
       return Success(_mapToEntity(tag));
     } catch (e, st) {
-      return FailureResult(DatabaseFailure('Failed to create tag: $e', cause: e, stackTrace: st));
+      return FailureResult(
+        DatabaseFailure('Failed to create tag: $e', cause: e, stackTrace: st),
+      );
     }
   }
 
   TagEntity _mapToEntity(Tag row) {
-    return TagEntity(
-      id: row.id,
-      name: row.name,
-      createdAt: row.createdAt,
-    );
+    return TagEntity(id: row.id, name: row.name, createdAt: row.createdAt);
   }
 }
-

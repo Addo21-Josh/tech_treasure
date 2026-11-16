@@ -13,10 +13,7 @@ import 'status_badge.dart';
 class TreasureCard extends ConsumerWidget {
   final TreasureEntity treasure;
 
-  const TreasureCard({
-    super.key,
-    required this.treasure,
-  });
+  const TreasureCard({super.key, required this.treasure});
 
   String _formatDate(DateTime dt) {
     final now = DateTime.now();
@@ -49,9 +46,14 @@ class TreasureCard extends ConsumerWidget {
                 children: [
                   if (treasure.categoryName != null) ...[
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.primaryContainer.withValues(alpha: 0.4),
+                        color: theme.colorScheme.primaryContainer.withValues(
+                          alpha: 0.4,
+                        ),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
@@ -70,14 +72,23 @@ class TreasureCard extends ConsumerWidget {
                   IconButton(
                     iconSize: 22,
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                    constraints: const BoxConstraints(
+                      minWidth: 32,
+                      minHeight: 32,
+                    ),
                     icon: Icon(
-                      treasure.isFavorite ? Icons.star_rounded : Icons.star_outline_rounded,
-                      color: treasure.isFavorite ? AppColors.treasureGold : AppColors.darkTextMuted,
+                      treasure.isFavorite
+                          ? Icons.star_rounded
+                          : Icons.star_outline_rounded,
+                      color: treasure.isFavorite
+                          ? AppColors.treasureGold
+                          : AppColors.darkTextMuted,
                     ),
                     onPressed: () {
                       HapticFeedback.lightImpact();
-                      ref.read(treasureRepositoryProvider).toggleFavorite(treasure.id);
+                      ref
+                          .read(treasureRepositoryProvider)
+                          .toggleFavorite(treasure.id);
                     },
                   ),
                 ],
@@ -111,7 +122,10 @@ class TreasureCard extends ConsumerWidget {
                 children: [
                   if (treasure.noAppNeeded) ...[
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF38BDF8).withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(6),
@@ -123,7 +137,11 @@ class TreasureCard extends ConsumerWidget {
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.no_cell_rounded, size: 12, color: Color(0xFF38BDF8)),
+                          Icon(
+                            Icons.no_cell_rounded,
+                            size: 12,
+                            color: Color(0xFF38BDF8),
+                          ),
                           SizedBox(width: 4),
                           Text(
                             'No App',
@@ -138,10 +156,7 @@ class TreasureCard extends ConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                   ],
-                  StarRatingInput(
-                    rating: treasure.contentPotential,
-                    size: 14,
-                  ),
+                  StarRatingInput(rating: treasure.contentPotential, size: 14),
                   const Spacer(),
                   Text(
                     _formatDate(treasure.updatedAt),
@@ -159,4 +174,3 @@ class TreasureCard extends ConsumerWidget {
     );
   }
 }
-

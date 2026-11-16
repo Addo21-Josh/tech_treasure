@@ -6,7 +6,9 @@ import 'package:tech_treasure/features/treasures/presentation/providers/treasure
 import 'package:tech_treasure/main.dart';
 
 void main() {
-  testWidgets('App launches and renders Dashboard and Bottom Navigation', (WidgetTester tester) async {
+  testWidgets('App launches and renders Dashboard and Bottom Navigation', (
+    WidgetTester tester,
+  ) async {
     final testCategories = [
       CategoryEntity(
         id: 'cat_phone_tricks',
@@ -19,7 +21,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          categoriesStreamProvider.overrideWith((ref) => Stream.value(testCategories)),
+          categoriesStreamProvider.overrideWith(
+            (ref) => Stream.value(testCategories),
+          ),
           statusCountsStreamProvider.overrideWith((ref) => Stream.value({})),
           treasuresStreamProvider.overrideWith((ref) => Stream.value([])),
         ],

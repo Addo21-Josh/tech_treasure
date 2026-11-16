@@ -11,7 +11,11 @@ import '../widgets/treasure_card.dart';
 class TreasuresListScreen extends ConsumerWidget {
   const TreasuresListScreen({super.key});
 
-  void _showSortDialog(BuildContext context, WidgetRef ref, TreasureFilter currentFilter) {
+  void _showSortDialog(
+    BuildContext context,
+    WidgetRef ref,
+    TreasureFilter currentFilter,
+  ) {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.darkCard,
@@ -33,11 +37,17 @@ class TreasuresListScreen extends ConsumerWidget {
                 leading: const Icon(Icons.update_rounded),
                 title: const Text('Recently Updated'),
                 trailing: currentFilter.sortBy == TreasureSortBy.recentlyUpdated
-                    ? const Icon(Icons.check_rounded, color: AppColors.treasureGold)
+                    ? const Icon(
+                        Icons.check_rounded,
+                        color: AppColors.treasureGold,
+                      )
                     : null,
                 onTap: () {
-                  ref.read(treasureFilterProvider.notifier).state =
-                      currentFilter.copyWith(sortBy: TreasureSortBy.recentlyUpdated);
+                  ref
+                      .read(treasureFilterProvider.notifier)
+                      .state = currentFilter.copyWith(
+                    sortBy: TreasureSortBy.recentlyUpdated,
+                  );
                   Navigator.of(ctx).pop();
                 },
               ),
@@ -45,23 +55,39 @@ class TreasuresListScreen extends ConsumerWidget {
                 leading: const Icon(Icons.schedule_rounded),
                 title: const Text('Recently Created'),
                 trailing: currentFilter.sortBy == TreasureSortBy.recentlyCreated
-                    ? const Icon(Icons.check_rounded, color: AppColors.treasureGold)
+                    ? const Icon(
+                        Icons.check_rounded,
+                        color: AppColors.treasureGold,
+                      )
                     : null,
                 onTap: () {
-                  ref.read(treasureFilterProvider.notifier).state =
-                      currentFilter.copyWith(sortBy: TreasureSortBy.recentlyCreated);
+                  ref
+                      .read(treasureFilterProvider.notifier)
+                      .state = currentFilter.copyWith(
+                    sortBy: TreasureSortBy.recentlyCreated,
+                  );
                   Navigator.of(ctx).pop();
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.star_rounded, color: AppColors.treasureGold),
+                leading: const Icon(
+                  Icons.star_rounded,
+                  color: AppColors.treasureGold,
+                ),
                 title: const Text('Highest Content Potential'),
-                trailing: currentFilter.sortBy == TreasureSortBy.highestPotential
-                    ? const Icon(Icons.check_rounded, color: AppColors.treasureGold)
+                trailing:
+                    currentFilter.sortBy == TreasureSortBy.highestPotential
+                    ? const Icon(
+                        Icons.check_rounded,
+                        color: AppColors.treasureGold,
+                      )
                     : null,
                 onTap: () {
-                  ref.read(treasureFilterProvider.notifier).state =
-                      currentFilter.copyWith(sortBy: TreasureSortBy.highestPotential);
+                  ref
+                      .read(treasureFilterProvider.notifier)
+                      .state = currentFilter.copyWith(
+                    sortBy: TreasureSortBy.highestPotential,
+                  );
                   Navigator.of(ctx).pop();
                 },
               ),
@@ -69,7 +95,10 @@ class TreasuresListScreen extends ConsumerWidget {
                 leading: const Icon(Icons.sort_by_alpha_rounded),
                 title: const Text('Title (A to Z)'),
                 trailing: currentFilter.sortBy == TreasureSortBy.titleAsc
-                    ? const Icon(Icons.check_rounded, color: AppColors.treasureGold)
+                    ? const Icon(
+                        Icons.check_rounded,
+                        color: AppColors.treasureGold,
+                      )
                     : null,
                 onTap: () {
                   ref.read(treasureFilterProvider.notifier).state =
@@ -84,7 +113,11 @@ class TreasuresListScreen extends ConsumerWidget {
     );
   }
 
-  void _showFilterModal(BuildContext context, WidgetRef ref, TreasureFilter filter) {
+  void _showFilterModal(
+    BuildContext context,
+    WidgetRef ref,
+    TreasureFilter filter,
+  ) {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.darkCard,
@@ -105,11 +138,15 @@ class TreasuresListScreen extends ConsumerWidget {
                     children: [
                       const Text(
                         'Filter Discoveries',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                       TextButton(
                         onPressed: () {
-                          ref.read(treasureFilterProvider.notifier).state = const TreasureFilter();
+                          ref.read(treasureFilterProvider.notifier).state =
+                              const TreasureFilter();
                           Navigator.of(ctx).pop();
                         },
                         child: const Text('Reset All'),
@@ -121,7 +158,9 @@ class TreasuresListScreen extends ConsumerWidget {
                     title: const Text('Verified Discoveries Only'),
                     value: filter.isVerified ?? false,
                     onChanged: (val) {
-                      final updated = filter.copyWith(isVerified: val == true ? true : null);
+                      final updated = filter.copyWith(
+                        isVerified: val == true ? true : null,
+                      );
                       ref.read(treasureFilterProvider.notifier).state = updated;
                       setModalState(() {});
                     },
@@ -130,7 +169,9 @@ class TreasuresListScreen extends ConsumerWidget {
                     title: const Text('No App Needed Only'),
                     value: filter.noAppNeeded ?? false,
                     onChanged: (val) {
-                      final updated = filter.copyWith(noAppNeeded: val == true ? true : null);
+                      final updated = filter.copyWith(
+                        noAppNeeded: val == true ? true : null,
+                      );
                       ref.read(treasureFilterProvider.notifier).state = updated;
                       setModalState(() {});
                     },
@@ -139,7 +180,9 @@ class TreasuresListScreen extends ConsumerWidget {
                     title: const Text('Starred Favorites Only'),
                     value: filter.isFavorite ?? false,
                     onChanged: (val) {
-                      final updated = filter.copyWith(isFavorite: val == true ? true : null);
+                      final updated = filter.copyWith(
+                        isFavorite: val == true ? true : null,
+                      );
                       ref.read(treasureFilterProvider.notifier).state = updated;
                       setModalState(() {});
                     },
@@ -167,17 +210,25 @@ class TreasuresListScreen extends ConsumerWidget {
             TextField(
               controller: nameController,
               autofocus: true,
-              decoration: const InputDecoration(labelText: 'Category Name *', hintText: 'e.g. AI Tools'),
+              decoration: const InputDecoration(
+                labelText: 'Category Name *',
+                hintText: 'e.g. AI Tools',
+              ),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: descController,
-              decoration: const InputDecoration(labelText: 'Description (Optional)'),
+              decoration: const InputDecoration(
+                labelText: 'Description (Optional)',
+              ),
             ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Cancel'),
+          ),
           FilledButton(
             onPressed: () async {
               final name = nameController.text.trim();
@@ -185,11 +236,15 @@ class TreasuresListScreen extends ConsumerWidget {
                 final category = CategoryEntity(
                   id: '',
                   name: name,
-                  description: descController.text.trim().isNotEmpty ? descController.text.trim() : null,
+                  description: descController.text.trim().isNotEmpty
+                      ? descController.text.trim()
+                      : null,
                   icon: 'category',
                   createdAt: DateTime.now(),
                 );
-                await ref.read(categoryRepositoryProvider).createCategory(category);
+                await ref
+                    .read(categoryRepositoryProvider)
+                    .createCategory(category);
                 if (ctx.mounted) Navigator.of(ctx).pop();
               }
             },
@@ -239,7 +294,10 @@ class TreasuresListScreen extends ConsumerWidget {
               return SizedBox(
                 height: 48,
                 child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 6,
+                  ),
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length + 2,
                   separatorBuilder: (_, _) => const SizedBox(width: 8),
@@ -271,8 +329,11 @@ class TreasuresListScreen extends ConsumerWidget {
                       label: Text(cat.name),
                       selected: isSelected,
                       onSelected: (selected) {
-                        ref.read(treasureFilterProvider.notifier).state =
-                            filter.copyWith(categoryId: selected ? cat.id : null, clearCategory: !selected);
+                        ref.read(treasureFilterProvider.notifier).state = filter
+                            .copyWith(
+                              categoryId: selected ? cat.id : null,
+                              clearCategory: !selected,
+                            );
                       },
                     );
                   },
@@ -297,7 +358,9 @@ class TreasuresListScreen extends ConsumerWidget {
                           Container(
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: AppColors.treasureGold.withValues(alpha: 0.1),
+                              color: AppColors.treasureGold.withValues(
+                                alpha: 0.1,
+                              ),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -308,7 +371,9 @@ class TreasuresListScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            filter.hasActiveFilters ? 'No Matching Treasures' : 'No Treasures Yet',
+                            filter.hasActiveFilters
+                                ? 'No Matching Treasures'
+                                : 'No Treasures Yet',
                             style: theme.textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -327,18 +392,34 @@ class TreasuresListScreen extends ConsumerWidget {
                           FilledButton.icon(
                             onPressed: () {
                               if (filter.hasActiveFilters) {
-                                ref.read(treasureFilterProvider.notifier).state = const TreasureFilter();
+                                ref
+                                        .read(treasureFilterProvider.notifier)
+                                        .state =
+                                    const TreasureFilter();
                               } else {
                                 context.push('/treasures/add');
                               }
                             },
-                            icon: Icon(filter.hasActiveFilters ? Icons.clear_rounded : Icons.add_rounded),
-                            label: Text(filter.hasActiveFilters ? 'Reset Filters' : 'Add Your First Treasure'),
+                            icon: Icon(
+                              filter.hasActiveFilters
+                                  ? Icons.clear_rounded
+                                  : Icons.add_rounded,
+                            ),
+                            label: Text(
+                              filter.hasActiveFilters
+                                  ? 'Reset Filters'
+                                  : 'Add Your First Treasure',
+                            ),
                             style: FilledButton.styleFrom(
                               backgroundColor: AppColors.treasureGold,
                               foregroundColor: const Color(0xFF451A03),
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
                           ),
                         ],

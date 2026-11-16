@@ -19,13 +19,11 @@ import '../widgets/status_badge.dart';
 class TreasureDetailScreen extends ConsumerStatefulWidget {
   final String treasureId;
 
-  const TreasureDetailScreen({
-    super.key,
-    required this.treasureId,
-  });
+  const TreasureDetailScreen({super.key, required this.treasureId});
 
   @override
-  ConsumerState<TreasureDetailScreen> createState() => _TreasureDetailScreenState();
+  ConsumerState<TreasureDetailScreen> createState() =>
+      _TreasureDetailScreenState();
 }
 
 class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
@@ -54,7 +52,9 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
             style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
             onPressed: () async {
               Navigator.of(ctx).pop();
-              await ref.read(treasureRepositoryProvider).deleteTreasure(widget.treasureId);
+              await ref
+                  .read(treasureRepositoryProvider)
+                  .deleteTreasure(widget.treasureId);
               if (context.mounted) {
                 context.pop();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -90,20 +90,30 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
               ...TreasureStatus.values.map((status) {
                 final isSelected = status == currentStatus;
                 return ListTile(
-                  leading: Text(status.emoji, style: const TextStyle(fontSize: 18)),
+                  leading: Text(
+                    status.emoji,
+                    style: const TextStyle(fontSize: 18),
+                  ),
                   title: Text(
                     status.label,
                     style: TextStyle(
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: isSelected ? AppColors.treasureGold : null,
                     ),
                   ),
                   trailing: isSelected
-                      ? const Icon(Icons.check_rounded, color: AppColors.treasureGold)
+                      ? const Icon(
+                          Icons.check_rounded,
+                          color: AppColors.treasureGold,
+                        )
                       : null,
                   onTap: () {
                     Navigator.of(ctx).pop();
-                    ref.read(treasureRepositoryProvider).updateStatus(widget.treasureId, status);
+                    ref
+                        .read(treasureRepositoryProvider)
+                        .updateStatus(widget.treasureId, status);
                   },
                 );
               }),
@@ -169,7 +179,10 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
               ),
             ),
             actions: [
-              TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Cancel'),
+              ),
               FilledButton(
                 onPressed: () async {
                   final title = titleController.text.trim();
@@ -179,8 +192,12 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                       treasureId: widget.treasureId,
                       title: title,
                       sourceType: selectedType,
-                      url: urlController.text.trim().isNotEmpty ? urlController.text.trim() : null,
-                      notes: notesController.text.trim().isNotEmpty ? notesController.text.trim() : null,
+                      url: urlController.text.trim().isNotEmpty
+                          ? urlController.text.trim()
+                          : null,
+                      notes: notesController.text.trim().isNotEmpty
+                          ? notesController.text.trim()
+                          : null,
                       createdAt: DateTime.now(),
                     );
                     await ref.read(sourceRepositoryProvider).addSource(source);
@@ -217,22 +234,33 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                     key: const Key('input_test_device'),
                     controller: deviceController,
                     autofocus: true,
-                    decoration: const InputDecoration(labelText: 'Tested Device *', hintText: 'e.g. Galaxy S24'),
+                    decoration: const InputDecoration(
+                      labelText: 'Tested Device *',
+                      hintText: 'e.g. Galaxy S24',
+                    ),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: osController,
-                    decoration: const InputDecoration(labelText: 'OS Version *', hintText: 'e.g. Android 16'),
+                    decoration: const InputDecoration(
+                      labelText: 'OS Version *',
+                      hintText: 'e.g. Android 16',
+                    ),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: envController,
-                    decoration: const InputDecoration(labelText: 'Test Environment', hintText: 'e.g. Windows 11 Wi-Fi'),
+                    decoration: const InputDecoration(
+                      labelText: 'Test Environment',
+                      hintText: 'e.g. Windows 11 Wi-Fi',
+                    ),
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<TestResult>(
                     initialValue: result,
-                    decoration: const InputDecoration(labelText: 'Empirical Test Result'),
+                    decoration: const InputDecoration(
+                      labelText: 'Empirical Test Result',
+                    ),
                     items: TestResult.values.map((r) {
                       return DropdownMenuItem(value: r, child: Text(r.label));
                     }).toList(),
@@ -243,14 +271,19 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                   const SizedBox(height: 12),
                   TextField(
                     controller: notesController,
-                    decoration: const InputDecoration(labelText: 'Testing Notes / Observations'),
+                    decoration: const InputDecoration(
+                      labelText: 'Testing Notes / Observations',
+                    ),
                     maxLines: 2,
                   ),
                 ],
               ),
             ),
             actions: [
-              TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Cancel'),
+              ),
               FilledButton(
                 key: const Key('btn_save_test'),
                 onPressed: () async {
@@ -262,12 +295,18 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                       treasureId: widget.treasureId,
                       device: device,
                       osVersion: os,
-                      environment: envController.text.trim().isNotEmpty ? envController.text.trim() : null,
+                      environment: envController.text.trim().isNotEmpty
+                          ? envController.text.trim()
+                          : null,
                       result: result,
-                      notes: notesController.text.trim().isNotEmpty ? notesController.text.trim() : null,
+                      notes: notesController.text.trim().isNotEmpty
+                          ? notesController.text.trim()
+                          : null,
                       testedAt: DateTime.now(),
                     );
-                    await ref.read(testRepositoryProvider).addTestRecord(testLog);
+                    await ref
+                        .read(testRepositoryProvider)
+                        .addTestRecord(testLog);
                     if (ctx.mounted) Navigator.of(ctx).pop();
                   }
                 },
@@ -282,11 +321,15 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
 
   void _copySteps(List<String> steps) {
     if (steps.isEmpty) return;
-    final text = steps.asMap().entries.map((e) => '${e.key + 1}. ${e.value}').join('\n');
+    final text = steps
+        .asMap()
+        .entries
+        .map((e) => '${e.key + 1}. ${e.value}')
+        .join('\n');
     Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Steps copied to clipboard!')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Steps copied to clipboard!')));
   }
 
   int get _checklistPassedCount {
@@ -316,7 +359,9 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final treasureAsync = ref.watch(treasureDetailStreamProvider(widget.treasureId));
+    final treasureAsync = ref.watch(
+      treasureDetailStreamProvider(widget.treasureId),
+    );
     final sourcesAsync = ref.watch(sourcesStreamProvider(widget.treasureId));
     final testsAsync = ref.watch(testsStreamProvider(widget.treasureId));
     final theme = Theme.of(context);
@@ -331,33 +376,53 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
               return Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.movie_creation_outlined, color: AppColors.treasureGold),
+                    icon: const Icon(
+                      Icons.movie_creation_outlined,
+                      color: AppColors.treasureGold,
+                    ),
                     tooltip: 'Script Studio',
-                    onPressed: () => context.push('/treasures/${widget.treasureId}/studio'),
+                    onPressed: () =>
+                        context.push('/treasures/${widget.treasureId}/studio'),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.share_rounded, color: AppColors.accentCyan),
+                    icon: const Icon(
+                      Icons.share_rounded,
+                      color: AppColors.accentCyan,
+                    ),
                     tooltip: 'Social Formatter',
-                    onPressed: () => SocialMediaExportModal.show(context, treasure: treasure),
+                    onPressed: () => SocialMediaExportModal.show(
+                      context,
+                      treasure: treasure,
+                    ),
                   ),
                   IconButton(
                     icon: Icon(
-                      treasure.isFavorite ? Icons.star_rounded : Icons.star_outline_rounded,
-                      color: treasure.isFavorite ? AppColors.treasureGold : null,
+                      treasure.isFavorite
+                          ? Icons.star_rounded
+                          : Icons.star_outline_rounded,
+                      color: treasure.isFavorite
+                          ? AppColors.treasureGold
+                          : null,
                     ),
                     tooltip: 'Toggle Starred',
                     onPressed: () {
                       HapticFeedback.lightImpact();
-                      ref.read(treasureRepositoryProvider).toggleFavorite(treasure.id);
+                      ref
+                          .read(treasureRepositoryProvider)
+                          .toggleFavorite(treasure.id);
                     },
                   ),
                   IconButton(
                     icon: const Icon(Icons.edit_rounded),
                     tooltip: 'Edit Treasure',
-                    onPressed: () => context.push('/treasures/${widget.treasureId}/edit'),
+                    onPressed: () =>
+                        context.push('/treasures/${widget.treasureId}/edit'),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent),
+                    icon: const Icon(
+                      Icons.delete_outline_rounded,
+                      color: Colors.redAccent,
+                    ),
                     tooltip: 'Delete Treasure',
                     onPressed: () => _confirmDelete(context),
                   ),
@@ -392,9 +457,14 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                 children: [
                   if (treasure.categoryName != null) ...[
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.primaryContainer.withValues(alpha: 0.4),
+                        color: theme.colorScheme.primaryContainer.withValues(
+                          alpha: 0.4,
+                        ),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -475,25 +545,36 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.treasureGold.withValues(alpha: 0.35)),
+                  border: Border.all(
+                    color: AppColors.treasureGold.withValues(alpha: 0.35),
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: const [
-                        Icon(Icons.video_camera_front_rounded, color: AppColors.treasureGold, size: 20),
+                        Icon(
+                          Icons.video_camera_front_rounded,
+                          color: AppColors.treasureGold,
+                          size: 20,
+                        ),
                         SizedBox(width: 8),
                         Text(
                           'Creator Production Suite',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 6),
                     Text(
                       'Hook formulation, full teleprompter narration, and formatted social media exports.',
-                      style: theme.textTheme.bodySmall?.copyWith(color: AppColors.darkTextMuted),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: AppColors.darkTextMuted,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     Wrap(
@@ -501,7 +582,9 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                       runSpacing: 8,
                       children: [
                         FilledButton.icon(
-                          onPressed: () => context.push('/treasures/${widget.treasureId}/studio'),
+                          onPressed: () => context.push(
+                            '/treasures/${widget.treasureId}/studio',
+                          ),
                           icon: const Icon(Icons.edit_note_rounded, size: 18),
                           label: const Text('Script Studio'),
                           style: FilledButton.styleFrom(
@@ -510,7 +593,9 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                           ),
                         ),
                         OutlinedButton.icon(
-                          onPressed: () => context.push('/treasures/${widget.treasureId}/teleprompter'),
+                          onPressed: () => context.push(
+                            '/treasures/${widget.treasureId}/teleprompter',
+                          ),
                           icon: const Icon(Icons.slideshow_rounded, size: 18),
                           label: const Text('Teleprompter'),
                           style: OutlinedButton.styleFrom(
@@ -519,7 +604,10 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                           ),
                         ),
                         OutlinedButton.icon(
-                          onPressed: () => SocialMediaExportModal.show(context, treasure: treasure),
+                          onPressed: () => SocialMediaExportModal.show(
+                            context,
+                            treasure: treasure,
+                          ),
                           icon: const Icon(Icons.share_rounded, size: 18),
                           label: const Text('Social Post'),
                           style: OutlinedButton.styleFrom(
@@ -549,7 +637,11 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                       if (treasure.problem != null) ...[
                         const Row(
                           children: [
-                            Icon(Icons.help_outline_rounded, color: Color(0xFFFBBF24), size: 18),
+                            Icon(
+                              Icons.help_outline_rounded,
+                              color: Color(0xFFFBBF24),
+                              size: 18,
+                            ),
                             SizedBox(width: 6),
                             Text(
                               'Problem',
@@ -562,13 +654,20 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                           ],
                         ),
                         const SizedBox(height: 4),
-                        Text(treasure.problem!, style: const TextStyle(fontSize: 14)),
+                        Text(
+                          treasure.problem!,
+                          style: const TextStyle(fontSize: 14),
+                        ),
                         const SizedBox(height: 12),
                       ],
                       if (treasure.solution != null) ...[
                         const Row(
                           children: [
-                            Icon(Icons.check_circle_outline_rounded, color: Color(0xFF4ADE80), size: 18),
+                            Icon(
+                              Icons.check_circle_outline_rounded,
+                              color: Color(0xFF4ADE80),
+                              size: 18,
+                            ),
                             SizedBox(width: 6),
                             Text(
                               'Solution',
@@ -581,7 +680,10 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                           ],
                         ),
                         const SizedBox(height: 4),
-                        Text(treasure.solution!, style: const TextStyle(fontSize: 14)),
+                        Text(
+                          treasure.solution!,
+                          style: const TextStyle(fontSize: 14),
+                        ),
                       ],
                     ],
                   ),
@@ -601,7 +703,10 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                   ),
                   child: const Text(
                     'No instructions recorded yet. Tap Edit to add numbered steps.',
-                    style: TextStyle(fontSize: 13, color: AppColors.darkTextMuted),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.darkTextMuted,
+                    ),
                   ),
                 )
               else ...[
@@ -631,7 +736,8 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                         children: [
                           CircleAvatar(
                             radius: 12,
-                            backgroundColor: AppColors.treasureGoldContainerDark,
+                            backgroundColor:
+                                AppColors.treasureGoldContainerDark,
                             child: Text(
                               '${index + 1}',
                               style: const TextStyle(
@@ -664,7 +770,9 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                   color: theme.colorScheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: treasure.isVerified ? const Color(0xFF4ADE80) : AppColors.darkBorder,
+                    color: treasure.isVerified
+                        ? const Color(0xFF4ADE80)
+                        : AppColors.darkBorder,
                   ),
                 ),
                 child: Column(
@@ -678,13 +786,19 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
-                            color: treasure.isVerified ? const Color(0xFF4ADE80) : AppColors.treasureGold,
+                            color: treasure.isVerified
+                                ? const Color(0xFF4ADE80)
+                                : AppColors.treasureGold,
                           ),
                         ),
                         if (treasure.isVerified)
                           const Row(
                             children: [
-                              Icon(Icons.verified_rounded, color: Color(0xFF4ADE80), size: 16),
+                              Icon(
+                                Icons.verified_rounded,
+                                color: Color(0xFF4ADE80),
+                                size: 16,
+                              ),
                               SizedBox(width: 4),
                               Text(
                                 'Verified Genuine',
@@ -702,44 +816,58 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                     LinearProgressIndicator(
                       value: _checklistPassedCount / 6.0,
                       backgroundColor: AppColors.darkElevated,
-                      color: treasure.isVerified ? const Color(0xFF4ADE80) : AppColors.treasureGold,
+                      color: treasure.isVerified
+                          ? const Color(0xFF4ADE80)
+                          : AppColors.treasureGold,
                     ),
                     const SizedBox(height: 12),
                     CheckboxListTile(
                       dense: true,
-                      title: const Text('Source checked & verified authoritative'),
+                      title: const Text(
+                        'Source checked & verified authoritative',
+                      ),
                       value: _sourceChecked,
-                      onChanged: (v) => setState(() => _sourceChecked = v ?? false),
+                      onChanged: (v) =>
+                          setState(() => _sourceChecked = v ?? false),
                     ),
                     CheckboxListTile(
                       dense: true,
                       title: const Text('Steps confirmed working in sequence'),
                       value: _stepsConfirmed,
-                      onChanged: (v) => setState(() => _stepsConfirmed = v ?? false),
+                      onChanged: (v) =>
+                          setState(() => _stepsConfirmed = v ?? false),
                     ),
                     CheckboxListTile(
                       dense: true,
                       title: const Text('Personally tested on hardware'),
                       value: _personallyTested,
-                      onChanged: (v) => setState(() => _personallyTested = v ?? false),
+                      onChanged: (v) =>
+                          setState(() => _personallyTested = v ?? false),
                     ),
                     CheckboxListTile(
                       dense: true,
-                      title: const Text('Compatibility checked across versions'),
+                      title: const Text(
+                        'Compatibility checked across versions',
+                      ),
                       value: _compatibilityChecked,
-                      onChanged: (v) => setState(() => _compatibilityChecked = v ?? false),
+                      onChanged: (v) =>
+                          setState(() => _compatibilityChecked = v ?? false),
                     ),
                     CheckboxListTile(
                       dense: true,
                       title: const Text('Known limitations documented'),
                       value: _limitationsDocumented,
-                      onChanged: (v) => setState(() => _limitationsDocumented = v ?? false),
+                      onChanged: (v) =>
+                          setState(() => _limitationsDocumented = v ?? false),
                     ),
                     CheckboxListTile(
                       dense: true,
-                      title: const Text('Security & privacy implications checked'),
+                      title: const Text(
+                        'Security & privacy implications checked',
+                      ),
                       value: _securityChecked,
-                      onChanged: (v) => setState(() => _securityChecked = v ?? false),
+                      onChanged: (v) =>
+                          setState(() => _securityChecked = v ?? false),
                     ),
                     if (!treasure.isVerified) ...[
                       const SizedBox(height: 12),
@@ -748,7 +876,10 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                         child: OutlinedButton.icon(
                           key: const Key('btn_mark_verified'),
                           onPressed: () => _markTreasureVerified(treasure),
-                          icon: const Icon(Icons.verified_rounded, color: Color(0xFF4ADE80)),
+                          icon: const Icon(
+                            Icons.verified_rounded,
+                            color: Color(0xFF4ADE80),
+                          ),
                           label: const Text('Mark Treasure as Verified'),
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: Color(0xFF4ADE80)),
@@ -769,7 +900,10 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                   _buildSectionHeader('EMPIRICAL TEST MATRIX'),
                   IconButton(
                     key: const Key('btn_add_test_record'),
-                    icon: const Icon(Icons.add_circle_outline_rounded, color: AppColors.treasureGold),
+                    icon: const Icon(
+                      Icons.add_circle_outline_rounded,
+                      color: AppColors.treasureGold,
+                    ),
                     tooltip: 'Log Device Test',
                     onPressed: () => _showAddTestDialog(context),
                   ),
@@ -787,12 +921,18 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.science_outlined, color: AppColors.darkTextMuted),
+                          const Icon(
+                            Icons.science_outlined,
+                            color: AppColors.darkTextMuted,
+                          ),
                           const SizedBox(width: 12),
                           const Expanded(
                             child: Text(
                               'No empirical tests logged yet. Test this trick on your device and record results.',
-                              style: TextStyle(fontSize: 13, color: AppColors.darkTextMuted),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: AppColors.darkTextMuted,
+                              ),
                             ),
                           ),
                           TextButton(
@@ -832,20 +972,31 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(Icons.phone_android_rounded, size: 16),
+                                    const Icon(
+                                      Icons.phone_android_rounded,
+                                      size: 16,
+                                    ),
                                     const SizedBox(width: 6),
                                     Text(
                                       '${t.device} (${t.osVersion})',
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
                                     ),
                                   ],
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 3,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: resultColor.withValues(alpha: 0.15),
                                     borderRadius: BorderRadius.circular(6),
-                                    border: Border.all(color: resultColor.withValues(alpha: 0.4)),
+                                    border: Border.all(
+                                      color: resultColor.withValues(alpha: 0.4),
+                                    ),
                                   ),
                                   child: Text(
                                     t.result.label,
@@ -862,7 +1013,10 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                               const SizedBox(height: 4),
                               Text(
                                 'Environment: ${t.environment}',
-                                style: const TextStyle(fontSize: 12, color: AppColors.darkTextSecondary),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.darkTextSecondary,
+                                ),
                               ),
                             ],
                             if (t.notes != null) ...[
@@ -875,7 +1029,10 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                             const SizedBox(height: 6),
                             Text(
                               DateFormat('MMM d, yyyy').format(t.testedAt),
-                              style: const TextStyle(fontSize: 11, color: AppColors.darkTextMuted),
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: AppColors.darkTextMuted,
+                              ),
                             ),
                           ],
                         ),
@@ -894,7 +1051,10 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                 children: [
                   _buildSectionHeader('RESEARCH SOURCES & CITATIONS'),
                   IconButton(
-                    icon: const Icon(Icons.add_link_rounded, color: AppColors.treasureGold),
+                    icon: const Icon(
+                      Icons.add_link_rounded,
+                      color: AppColors.treasureGold,
+                    ),
                     tooltip: 'Add Source',
                     onPressed: () => _showAddSourceDialog(context),
                   ),
@@ -912,12 +1072,18 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.link_outlined, color: AppColors.darkTextMuted),
+                          const Icon(
+                            Icons.link_outlined,
+                            color: AppColors.darkTextMuted,
+                          ),
                           const SizedBox(width: 12),
                           const Expanded(
                             child: Text(
                               'No research sources recorded yet. Add official docs, YouTube links, or forums.',
-                              style: TextStyle(fontSize: 13, color: AppColors.darkTextMuted),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: AppColors.darkTextMuted,
+                              ),
                             ),
                           ),
                           TextButton(
@@ -948,10 +1114,16 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: AppColors.treasureGold.withValues(alpha: 0.1),
+                                color: AppColors.treasureGold.withValues(
+                                  alpha: 0.1,
+                                ),
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.link_rounded, size: 16, color: AppColors.treasureGold),
+                              child: const Icon(
+                                Icons.link_rounded,
+                                size: 16,
+                                color: AppColors.treasureGold,
+                              ),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
@@ -962,18 +1134,29 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                                     children: [
                                       Text(
                                         s.title,
-                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                        ),
                                       ),
                                       const SizedBox(width: 8),
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 6,
+                                          vertical: 2,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: AppColors.darkElevated,
-                                          borderRadius: BorderRadius.circular(4),
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
                                         ),
                                         child: Text(
                                           s.sourceType.label,
-                                          style: const TextStyle(fontSize: 10, color: AppColors.darkTextSecondary),
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: AppColors.darkTextSecondary,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -982,21 +1165,29 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                                     const SizedBox(height: 2),
                                     Text(
                                       s.url!,
-                                      style: const TextStyle(fontSize: 11, color: Color(0xFF38BDF8)),
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Color(0xFF38BDF8),
+                                      ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ],
                                   if (s.notes != null) ...[
                                     const SizedBox(height: 4),
-                                    Text(s.notes!, style: const TextStyle(fontSize: 12)),
+                                    Text(
+                                      s.notes!,
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
                                   ],
                                 ],
                               ),
                             ),
                             IconButton(
                               icon: const Icon(Icons.close_rounded, size: 16),
-                              onPressed: () => ref.read(sourceRepositoryProvider).deleteSource(s.id),
+                              onPressed: () => ref
+                                  .read(sourceRepositoryProvider)
+                                  .deleteSource(s.id),
                             ),
                           ],
                         ),
@@ -1018,7 +1209,9 @@ class _TreasureDetailScreenState extends ConsumerState<TreasureDetailScreen> {
                   backgroundColor: AppColors.treasureGold,
                   foregroundColor: const Color(0xFF451A03),
                   padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
               const SizedBox(height: 40),

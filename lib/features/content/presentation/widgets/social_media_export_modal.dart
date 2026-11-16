@@ -4,11 +4,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../treasures/domain/entities/treasure_entity.dart';
 import '../../domain/entities/content_entity.dart';
 
-enum ExportFormat {
-  shortReel,
-  whatsApp,
-  markdownThread,
-}
+enum ExportFormat { shortReel, whatsApp, markdownThread }
 
 /// Modal bottom sheet allowing creators to export formatted text tailored for social platforms.
 class SocialMediaExportModal extends StatefulWidget {
@@ -30,10 +26,8 @@ class SocialMediaExportModal extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => SocialMediaExportModal(
-        treasure: treasure,
-        content: content,
-      ),
+      builder: (ctx) =>
+          SocialMediaExportModal(treasure: treasure, content: content),
     );
   }
 
@@ -62,11 +56,21 @@ class _SocialMediaExportModalState extends State<SocialMediaExportModal> {
 
     switch (_selectedFormat) {
       case ExportFormat.shortReel:
-        final stepsText = t.steps.asMap().entries.map((entry) {
-          return '${entry.key + 1}. ${entry.value}';
-        }).join('\n');
+        final stepsText = t.steps
+            .asMap()
+            .entries
+            .map((entry) {
+              return '${entry.key + 1}. ${entry.value}';
+            })
+            .join('\n');
 
-        final tags = ['#tech', '#techtips', '#techhacks', '#productivity', '#shorts'];
+        final tags = [
+          '#tech',
+          '#techtips',
+          '#techhacks',
+          '#productivity',
+          '#shorts',
+        ];
         if (t.noAppNeeded) tags.add('#noappneeded');
 
         return '''$hook
@@ -81,9 +85,13 @@ $cta
 ${tags.join(' ')}''';
 
       case ExportFormat.whatsApp:
-        final stepsText = t.steps.asMap().entries.map((entry) {
-          return '• *Step ${entry.key + 1}:* ${entry.value}';
-        }).join('\n');
+        final stepsText = t.steps
+            .asMap()
+            .entries
+            .map((entry) {
+              return '• *Step ${entry.key + 1}:* ${entry.value}';
+            })
+            .join('\n');
 
         return '''*${t.title.toUpperCase()}* 🚀
 
@@ -97,9 +105,13 @@ $stepsText
 $cta''';
 
       case ExportFormat.markdownThread:
-        final stepsText = t.steps.asMap().entries.map((entry) {
-          return '${entry.key + 1}. ${entry.value}';
-        }).join('\n');
+        final stepsText = t.steps
+            .asMap()
+            .entries
+            .map((entry) {
+              return '${entry.key + 1}. ${entry.value}';
+            })
+            .join('\n');
 
         return '''## 💡 ${t.title}
 
@@ -199,7 +211,11 @@ $cta''';
                     selected: _selectedFormat == ExportFormat.shortReel,
                     selectedColor: AppColors.accentGold.withValues(alpha: 0.2),
                     onSelected: (val) {
-                      if (val) setState(() => _selectedFormat = ExportFormat.shortReel);
+                      if (val) {
+                        setState(
+                          () => _selectedFormat = ExportFormat.shortReel,
+                        );
+                      }
                     },
                   ),
                 ),
@@ -208,9 +224,13 @@ $cta''';
                   child: ChoiceChip(
                     label: const Center(child: Text('💬 WhatsApp')),
                     selected: _selectedFormat == ExportFormat.whatsApp,
-                    selectedColor: AppColors.accentSuccess.withValues(alpha: 0.2),
+                    selectedColor: AppColors.accentSuccess.withValues(
+                      alpha: 0.2,
+                    ),
                     onSelected: (val) {
-                      if (val) setState(() => _selectedFormat = ExportFormat.whatsApp);
+                      if (val) {
+                        setState(() => _selectedFormat = ExportFormat.whatsApp);
+                      }
                     },
                   ),
                 ),
@@ -221,7 +241,11 @@ $cta''';
                     selected: _selectedFormat == ExportFormat.markdownThread,
                     selectedColor: AppColors.accentCyan.withValues(alpha: 0.2),
                     onSelected: (val) {
-                      if (val) setState(() => _selectedFormat = ExportFormat.markdownThread);
+                      if (val) {
+                        setState(
+                          () => _selectedFormat = ExportFormat.markdownThread,
+                        );
+                      }
                     },
                   ),
                 ),
@@ -260,7 +284,9 @@ $cta''';
                 backgroundColor: AppColors.accentGold,
                 foregroundColor: Colors.black,
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
           ),
@@ -269,4 +295,3 @@ $cta''';
     );
   }
 }
-

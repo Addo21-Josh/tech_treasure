@@ -12,31 +12,30 @@ sealed class Result<T, E extends Failure> {
 
   /// Extracts the success value if present, otherwise returns `null`.
   T? get valueOrNull => switch (this) {
-        Success(data: final v) => v,
-        FailureResult() => null,
-      };
+    Success(data: final v) => v,
+    FailureResult() => null,
+  };
 
   /// Extracts the failure error if present, otherwise returns `null`.
   E? get failureOrNull => switch (this) {
-        Success() => null,
-        FailureResult(failure: final f) => f,
-      };
+    Success() => null,
+    FailureResult(failure: final f) => f,
+  };
 
   /// Maps success data or failure to a single output value [R].
   R fold<R>({
     required R Function(T data) onSuccess,
     required R Function(E failure) onFailure,
-  }) =>
-      switch (this) {
-        Success(data: final v) => onSuccess(v),
-        FailureResult(failure: final f) => onFailure(f),
-      };
+  }) => switch (this) {
+    Success(data: final v) => onSuccess(v),
+    FailureResult(failure: final f) => onFailure(f),
+  };
 
   /// Transforms the successful data value using [mapper].
   Result<R, E> map<R>(R Function(T data) mapper) => switch (this) {
-        Success(data: final v) => Success(mapper(v)),
-        FailureResult(failure: final f) => FailureResult(f),
-      };
+    Success(data: final v) => Success(mapper(v)),
+    FailureResult(failure: final f) => FailureResult(f),
+  };
 }
 
 /// Represents a successful operation delivering [data].
@@ -47,7 +46,9 @@ final class Success<T, E extends Failure> extends Result<T, E> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Success<T, E> && runtimeType == other.runtimeType && data == other.data;
+      other is Success<T, E> &&
+          runtimeType == other.runtimeType &&
+          data == other.data;
 
   @override
   int get hashCode => data.hashCode;
@@ -74,4 +75,3 @@ final class FailureResult<T, E extends Failure> extends Result<T, E> {
   @override
   String toString() => 'FailureResult($failure)';
 }
-

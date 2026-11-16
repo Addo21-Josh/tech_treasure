@@ -34,4 +34,3 @@ class BackupCorruptFailure extends Failure {
 class UnexpectedFailure extends Failure {
   const UnexpectedFailure(super.message, {super.cause, super.stackTrace});
 }
-

@@ -33,18 +33,17 @@ class StarRatingInput extends StatelessWidget {
             iconSize: size,
             visualDensity: VisualDensity.compact,
             padding: const EdgeInsets.symmetric(horizontal: 2),
-            constraints: BoxConstraints(minWidth: size + 6, minHeight: size + 6),
+            constraints: BoxConstraints(
+              minWidth: size + 6,
+              minHeight: size + 6,
+            ),
             icon: icon,
             onPressed: () => onRatingChanged!(starIndex),
           );
         }
 
-        return Padding(
-          padding: const EdgeInsets.only(right: 2),
-          child: icon,
-        );
+        return Padding(padding: const EdgeInsets.only(right: 2), child: icon);
       }),
     );
   }
 }
-

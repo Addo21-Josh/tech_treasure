@@ -18,13 +18,12 @@ final contentRepositoryProvider = Provider<ContentRepository>((ref) {
 
 final contentForTreasureProvider =
     StreamProvider.family<ContentEntity?, String>((ref, treasureId) {
-  final repo = ref.watch(contentRepositoryProvider);
-  return repo.watchContentForTreasure(treasureId);
-});
+      final repo = ref.watch(contentRepositoryProvider);
+      return repo.watchContentForTreasure(treasureId);
+    });
 
 final metricsForContentProvider =
     StreamProvider.family<List<ContentMetricsEntity>, String>((ref, contentId) {
-  final repo = ref.watch(contentRepositoryProvider);
-  return repo.watchMetricsForContent(contentId);
-});
-
+      final repo = ref.watch(contentRepositoryProvider);
+      return repo.watchMetricsForContent(contentId);
+    });

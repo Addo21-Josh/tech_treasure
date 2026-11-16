@@ -7,11 +7,7 @@ class StatusBadge extends StatelessWidget {
   final TreasureStatus status;
   final VoidCallback? onTap;
 
-  const StatusBadge({
-    super.key,
-    required this.status,
-    this.onTap,
-  });
+  const StatusBadge({super.key, required this.status, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +25,7 @@ class StatusBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            status.emoji,
-            style: const TextStyle(fontSize: 12),
-          ),
+          Text(status.emoji, style: const TextStyle(fontSize: 12)),
           const SizedBox(width: 4),
           Text(
             status.label,
@@ -57,4 +50,3 @@ class StatusBadge extends StatelessWidget {
     return badge;
   }
 }
-

@@ -82,15 +82,18 @@ final treasuresStreamProvider = StreamProvider<List<TreasureEntity>>((ref) {
 });
 
 /// Reactive single treasure stream by ID.
-final treasureDetailStreamProvider = StreamProvider.family<TreasureEntity?, String>((ref, id) {
-  final repo = ref.watch(treasureRepositoryProvider);
-  return repo.watchTreasures().map((list) {
-    return list.where((t) => t.id == id).firstOrNull;
-  });
-});
+final treasureDetailStreamProvider =
+    StreamProvider.family<TreasureEntity?, String>((ref, id) {
+      final repo = ref.watch(treasureRepositoryProvider);
+      return repo.watchTreasures().map((list) {
+        return list.where((t) => t.id == id).firstOrNull;
+      });
+    });
 
 /// Reactive stream of counts per status for the dashboard.
-final statusCountsStreamProvider = StreamProvider<Map<TreasureStatus, int>>((ref) {
+final statusCountsStreamProvider = StreamProvider<Map<TreasureStatus, int>>((
+  ref,
+) {
   final repo = ref.watch(treasureRepositoryProvider);
   return repo.watchStatusCounts();
 });
@@ -101,4 +104,3 @@ final totalTreasuresCountProvider = FutureProvider<int>((ref) async {
   final result = await repo.getTotalCount();
   return result.fold(onSuccess: (count) => count, onFailure: (_) => 0);
 });
-

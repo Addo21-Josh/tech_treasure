@@ -14,7 +14,8 @@ class PipelineScreen extends ConsumerStatefulWidget {
   ConsumerState<PipelineScreen> createState() => _PipelineScreenState();
 }
 
-class _PipelineScreenState extends ConsumerState<PipelineScreen> with SingleTickerProviderStateMixin {
+class _PipelineScreenState extends ConsumerState<PipelineScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   static const List<TreasureStatus> _stages = [
@@ -51,7 +52,9 @@ class _PipelineScreenState extends ConsumerState<PipelineScreen> with SingleTick
   Future<void> _advanceStage(TreasureEntity treasure) async {
     final next = _getNextStage(treasure.status);
     if (next != null) {
-      await ref.read(treasureRepositoryProvider).updateStatus(treasure.id, next);
+      await ref
+          .read(treasureRepositoryProvider)
+          .updateStatus(treasure.id, next);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -99,7 +102,10 @@ class _PipelineScreenState extends ConsumerState<PipelineScreen> with SingleTick
               final isCurrent = stage == treasure.status;
               final color = AppColors.statusColor(stage);
               return ListTile(
-                leading: Text(stage.emoji, style: const TextStyle(fontSize: 20)),
+                leading: Text(
+                  stage.emoji,
+                  style: const TextStyle(fontSize: 20),
+                ),
                 title: Text(
                   stage.label,
                   style: TextStyle(
@@ -108,12 +114,17 @@ class _PipelineScreenState extends ConsumerState<PipelineScreen> with SingleTick
                   ),
                 ),
                 trailing: isCurrent
-                    ? const Icon(Icons.check_circle_rounded, color: AppColors.accentGold)
+                    ? const Icon(
+                        Icons.check_circle_rounded,
+                        color: AppColors.accentGold,
+                      )
                     : null,
                 onTap: () async {
                   Navigator.pop(ctx);
                   if (!isCurrent) {
-                    await ref.read(treasureRepositoryProvider).updateStatus(treasure.id, stage);
+                    await ref
+                        .read(treasureRepositoryProvider)
+                        .updateStatus(treasure.id, stage);
                   }
                 },
               );
@@ -149,7 +160,10 @@ class _PipelineScreenState extends ConsumerState<PipelineScreen> with SingleTick
                   Text(stage.label),
                   const SizedBox(width: 6),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: count > 0
                           ? AppColors.statusColor(stage).withValues(alpha: 0.2)
@@ -161,7 +175,9 @@ class _PipelineScreenState extends ConsumerState<PipelineScreen> with SingleTick
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
-                        color: count > 0 ? AppColors.statusColor(stage) : AppColors.darkTextMuted,
+                        color: count > 0
+                            ? AppColors.statusColor(stage)
+                            : AppColors.darkTextMuted,
                       ),
                     ),
                   ),
@@ -205,7 +221,9 @@ class _PipelineStageColumn extends ConsumerWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (err, _) => Center(child: Text('Error: $err')),
       data: (allTreasures) {
-        final stageTreasures = allTreasures.where((t) => t.status == status).toList();
+        final stageTreasures = allTreasures
+            .where((t) => t.status == status)
+            .toList();
 
         if (stageTreasures.isEmpty) {
           return Center(
@@ -271,9 +289,13 @@ class _PipelineStageColumn extends ConsumerWidget {
                             Row(
                               children: List.generate(5, (i) {
                                 return Icon(
-                                  i < treasure.contentPotential ? Icons.star_rounded : Icons.star_outline_rounded,
+                                  i < treasure.contentPotential
+                                      ? Icons.star_rounded
+                                      : Icons.star_outline_rounded,
                                   size: 16,
-                                  color: i < treasure.contentPotential ? AppColors.accentGold : AppColors.darkTextMuted,
+                                  color: i < treasure.contentPotential
+                                      ? AppColors.accentGold
+                                      : AppColors.darkTextMuted,
                                 );
                               }),
                             ),
@@ -296,7 +318,10 @@ class _PipelineStageColumn extends ConsumerWidget {
                           runSpacing: 4,
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: statusColor.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(6),
@@ -312,15 +337,24 @@ class _PipelineStageColumn extends ConsumerWidget {
                             ),
                             if (treasure.isVerified)
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.accentSuccess.withValues(alpha: 0.15),
+                                  color: AppColors.accentSuccess.withValues(
+                                    alpha: 0.15,
+                                  ),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: const Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.verified_rounded, size: 12, color: AppColors.accentSuccess),
+                                    Icon(
+                                      Icons.verified_rounded,
+                                      size: 12,
+                                      color: AppColors.accentSuccess,
+                                    ),
                                     SizedBox(width: 4),
                                     Text(
                                       'Verified',
@@ -335,9 +369,14 @@ class _PipelineStageColumn extends ConsumerWidget {
                               ),
                             if (treasure.noAppNeeded)
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.accentCyan.withValues(alpha: 0.15),
+                                  color: AppColors.accentCyan.withValues(
+                                    alpha: 0.15,
+                                  ),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: const Text(
@@ -361,20 +400,30 @@ class _PipelineStageColumn extends ConsumerWidget {
                             // Studio button
                             OutlinedButton.icon(
                               onPressed: () {
-                                context.push('/treasures/${treasure.id}/studio');
+                                context.push(
+                                  '/treasures/${treasure.id}/studio',
+                                );
                               },
-                              icon: const Icon(Icons.movie_creation_outlined, size: 16),
+                              icon: const Icon(
+                                Icons.movie_creation_outlined,
+                                size: 16,
+                              ),
                               label: const Text('Studio'),
                               style: OutlinedButton.styleFrom(
                                 visualDensity: VisualDensity.compact,
                                 foregroundColor: AppColors.accentGold,
-                                side: const BorderSide(color: AppColors.accentGold),
+                                side: const BorderSide(
+                                  color: AppColors.accentGold,
+                                ),
                               ),
                             ),
                             const Spacer(),
                             // Move stage menu button
                             IconButton(
-                              icon: const Icon(Icons.low_priority_rounded, size: 20),
+                              icon: const Icon(
+                                Icons.low_priority_rounded,
+                                size: 20,
+                              ),
                               tooltip: 'Move to Stage...',
                               onPressed: () => onMoveStage(treasure),
                             ),
@@ -382,7 +431,10 @@ class _PipelineStageColumn extends ConsumerWidget {
                             if (status != TreasureStatus.published)
                               FilledButton.icon(
                                 onPressed: () => onAdvance(treasure),
-                                icon: const Icon(Icons.arrow_forward_rounded, size: 16),
+                                icon: const Icon(
+                                  Icons.arrow_forward_rounded,
+                                  size: 16,
+                                ),
                                 label: const Text('Next'),
                                 style: FilledButton.styleFrom(
                                   visualDensity: VisualDensity.compact,

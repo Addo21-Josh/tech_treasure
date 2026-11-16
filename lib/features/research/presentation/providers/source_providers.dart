@@ -15,8 +15,9 @@ final sourceRepositoryProvider = Provider<SourceRepository>((ref) {
   return SourceRepositoryImpl(dao);
 });
 
-final sourcesStreamProvider = StreamProvider.family<List<SourceEntity>, String>((ref, treasureId) {
-  final repo = ref.watch(sourceRepositoryProvider);
-  return repo.watchSourcesForTreasure(treasureId);
-});
-
+final sourcesStreamProvider = StreamProvider.family<List<SourceEntity>, String>(
+  (ref, treasureId) {
+    final repo = ref.watch(sourceRepositoryProvider);
+    return repo.watchSourcesForTreasure(treasureId);
+  },
+);

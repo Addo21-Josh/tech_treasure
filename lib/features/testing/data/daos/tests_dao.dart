@@ -28,4 +28,3 @@ class TestsDao {
     return (db.delete(db.testRecords)..where((t) => t.id.equals(id))).go();
   }
 }
-

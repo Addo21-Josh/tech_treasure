@@ -14,10 +14,7 @@ import '../widgets/social_media_export_modal.dart';
 class ScriptStudioScreen extends ConsumerStatefulWidget {
   final String treasureId;
 
-  const ScriptStudioScreen({
-    super.key,
-    required this.treasureId,
-  });
+  const ScriptStudioScreen({super.key, required this.treasureId});
 
   @override
   ConsumerState<ScriptStudioScreen> createState() => _ScriptStudioScreenState();
@@ -79,11 +76,18 @@ class _ScriptStudioScreenState extends ConsumerState<ScriptStudioScreen> {
       _contentType = content.contentType;
     } else {
       // Default initial templates
-      _hookController.text = 'Stop scrolling! Here is a hidden ${treasure.title} trick that will change how you work.';
+      _hookController.text =
+          'Stop scrolling! Here is a hidden ${treasure.title} trick that will change how you work.';
       _problemController.text = treasure.shortDescription;
-      _demoController.text = treasure.steps.asMap().entries.map((e) => '${e.key + 1}. ${e.value}').join('\n');
-      _ctaController.text = 'Follow @TechTreasure for more daily tech discoveries! Save this before you lose it.';
-      _scriptController.text = '''[HOOK - 0-3s]
+      _demoController.text = treasure.steps
+          .asMap()
+          .entries
+          .map((e) => '${e.key + 1}. ${e.value}')
+          .join('\n');
+      _ctaController.text =
+          'Follow @TechTreasure for more daily tech discoveries! Save this before you lose it.';
+      _scriptController.text =
+          '''[HOOK - 0-3s]
 ${_hookController.text}
 
 [PROBLEM - 3-10s]
@@ -131,7 +135,9 @@ ${_ctaController.text}''';
       script: _scriptController.text.trim(),
       cta: _ctaController.text.trim(),
       status: _existingContent?.status ?? 'scripted',
-      platformUrl: _platformUrlController.text.trim().isNotEmpty ? _platformUrlController.text.trim() : null,
+      platformUrl: _platformUrlController.text.trim().isNotEmpty
+          ? _platformUrlController.text.trim()
+          : null,
       publishedAt: _existingContent?.publishedAt,
       createdAt: _existingContent?.createdAt ?? now,
       updatedAt: now,
@@ -147,7 +153,9 @@ ${_ctaController.text}''';
           treasure.status == TreasureStatus.testing ||
           treasure.status == TreasureStatus.verified ||
           treasure.status == TreasureStatus.readyToCreate) {
-        await ref.read(treasureRepositoryProvider).updateStatus(treasure.id, TreasureStatus.scripted);
+        await ref
+            .read(treasureRepositoryProvider)
+            .updateStatus(treasure.id, TreasureStatus.scripted);
       }
 
       if (!mounted) return;
@@ -195,7 +203,9 @@ ${_ctaController.text}''';
               TextField(
                 controller: viewsCtrl,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Total Views / Impressions'),
+                decoration: const InputDecoration(
+                  labelText: 'Total Views / Impressions',
+                ),
               ),
               const SizedBox(height: 12),
               Row(
@@ -224,7 +234,9 @@ ${_ctaController.text}''';
                     child: TextField(
                       controller: savesCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(labelText: 'Bookmarks / Saves'),
+                      decoration: const InputDecoration(
+                        labelText: 'Bookmarks / Saves',
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -241,18 +253,25 @@ ${_ctaController.text}''';
               TextField(
                 controller: followersCtrl,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Followers Gained'),
+                decoration: const InputDecoration(
+                  labelText: 'Followers Gained',
+                ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: notesCtrl,
-                decoration: const InputDecoration(labelText: 'Notes (e.g. virality triggers, retention cliff)'),
+                decoration: const InputDecoration(
+                  labelText: 'Notes (e.g. virality triggers, retention cliff)',
+                ),
               ),
             ],
           ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
           FilledButton(
             onPressed: () async {
               final views = int.tryParse(viewsCtrl.text.trim()) ?? 0;
@@ -271,7 +290,9 @@ ${_ctaController.text}''';
                 shares: shares,
                 saves: saves,
                 followersGained: followers,
-                performanceNotes: notesCtrl.text.trim().isNotEmpty ? notesCtrl.text.trim() : null,
+                performanceNotes: notesCtrl.text.trim().isNotEmpty
+                    ? notesCtrl.text.trim()
+                    : null,
                 recordedAt: DateTime.now(),
               );
 
@@ -288,13 +309,16 @@ ${_ctaController.text}''';
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final treasureAsync = ref.watch(treasureDetailStreamProvider(widget.treasureId));
-    final contentAsync = ref.watch(contentForTreasureProvider(widget.treasureId));
+    final treasureAsync = ref.watch(
+      treasureDetailStreamProvider(widget.treasureId),
+    );
+    final contentAsync = ref.watch(
+      contentForTreasureProvider(widget.treasureId),
+    );
 
     return treasureAsync.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (err, _) => Scaffold(
         appBar: AppBar(title: const Text('Script Studio')),
         body: Center(child: Text('Error: $err')),
@@ -317,10 +341,15 @@ ${_ctaController.text}''';
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Script Studio', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Script Studio',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 Text(
                   treasure.title,
-                  style: theme.textTheme.bodySmall?.copyWith(color: AppColors.darkTextMuted),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: AppColors.darkTextMuted,
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -328,7 +357,10 @@ ${_ctaController.text}''';
             actions: [
               // Teleprompter button
               IconButton(
-                icon: const Icon(Icons.slideshow_rounded, color: AppColors.accentGold),
+                icon: const Icon(
+                  Icons.slideshow_rounded,
+                  color: AppColors.accentGold,
+                ),
                 tooltip: 'Launch Teleprompter',
                 onPressed: () {
                   context.push('/treasures/${treasure.id}/teleprompter');
@@ -336,7 +368,10 @@ ${_ctaController.text}''';
               ),
               // Social Media Formatter modal
               IconButton(
-                icon: const Icon(Icons.share_rounded, color: AppColors.accentCyan),
+                icon: const Icon(
+                  Icons.share_rounded,
+                  color: AppColors.accentCyan,
+                ),
                 tooltip: 'Social Formatter',
                 onPressed: () {
                   SocialMediaExportModal.show(
@@ -357,13 +392,18 @@ ${_ctaController.text}''';
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: theme.colorScheme.surfaceContainerHigh,
-              border: const Border(top: BorderSide(color: AppColors.darkBorder)),
+              border: const Border(
+                top: BorderSide(color: AppColors.darkBorder),
+              ),
             ),
             child: Row(
               children: [
                 // Reading estimation badge
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.darkSurface,
                     borderRadius: BorderRadius.circular(10),
@@ -371,7 +411,11 @@ ${_ctaController.text}''';
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.timer_outlined, size: 16, color: AppColors.accentGold),
+                      const Icon(
+                        Icons.timer_outlined,
+                        size: 16,
+                        color: AppColors.accentGold,
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         '$_formattedDuration • $_calculatedWordCount words',
@@ -408,13 +452,19 @@ ${_ctaController.text}''';
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Target Platform', style: theme.textTheme.titleSmall),
+                        Text(
+                          'Target Platform',
+                          style: theme.textTheme.titleSmall,
+                        ),
                         const SizedBox(height: 8),
                         DropdownButtonFormField<ContentType>(
                           initialValue: _contentType,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
                           ),
                           items: ContentType.values.map((type) {
                             return DropdownMenuItem(
@@ -443,13 +493,21 @@ ${_ctaController.text}''';
                           children: const [
                             Text('🎣', style: TextStyle(fontSize: 20)),
                             SizedBox(width: 8),
-                            Text('The 3-Second Hook', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            Text(
+                              'The 3-Second Hook',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'Grab viewer attention before they scroll. Speak directly to pain or reveal something hidden.',
-                          style: theme.textTheme.bodySmall?.copyWith(color: AppColors.darkTextMuted),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkTextMuted,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         // Quick Hook Templates Chips
@@ -460,19 +518,22 @@ ${_ctaController.text}''';
                             ActionChip(
                               label: const Text('Stop scrolling...'),
                               onPressed: () {
-                                _hookController.text = 'Stop scrolling! 99% of people don\'t know this ${treasure.title} secret.';
+                                _hookController.text =
+                                    'Stop scrolling! 99% of people don\'t know this ${treasure.title} secret.';
                               },
                             ),
                             ActionChip(
                               label: const Text('Secret trick...'),
                               onPressed: () {
-                                _hookController.text = 'This hidden trick lets you ${treasure.title.toLowerCase()} in seconds.';
+                                _hookController.text =
+                                    'This hidden trick lets you ${treasure.title.toLowerCase()} in seconds.';
                               },
                             ),
                             ActionChip(
                               label: const Text('No app needed...'),
                               onPressed: () {
-                                _hookController.text = 'You do NOT need to install any app to ${treasure.title.toLowerCase()}!';
+                                _hookController.text =
+                                    'You do NOT need to install any app to ${treasure.title.toLowerCase()}!';
                               },
                             ),
                           ],
@@ -503,20 +564,29 @@ ${_ctaController.text}''';
                           children: const [
                             Text('⚠️', style: TextStyle(fontSize: 20)),
                             SizedBox(width: 8),
-                            Text('The Problem / Context', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            Text(
+                              'The Problem / Context',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'Why standard solutions suck or what pain viewers experience every day.',
-                          style: theme.textTheme.bodySmall?.copyWith(color: AppColors.darkTextMuted),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkTextMuted,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         TextFormField(
                           controller: _problemController,
                           maxLines: 2,
                           decoration: const InputDecoration(
-                            hintText: 'Describe the frustrating problem this solves...',
+                            hintText:
+                                'Describe the frustrating problem this solves...',
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -537,13 +607,23 @@ ${_ctaController.text}''';
                           children: [
                             const Text('⚙️', style: TextStyle(fontSize: 20)),
                             const SizedBox(width: 8),
-                            const Text('Demonstration Steps', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            const Text(
+                              'Demonstration Steps',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
                             const Spacer(),
                             TextButton.icon(
                               icon: const Icon(Icons.sync_rounded, size: 16),
                               label: const Text('Pull from Treasure'),
                               onPressed: () {
-                                _demoController.text = treasure.steps.asMap().entries.map((e) => '${e.key + 1}. ${e.value}').join('\n');
+                                _demoController.text = treasure.steps
+                                    .asMap()
+                                    .entries
+                                    .map((e) => '${e.key + 1}. ${e.value}')
+                                    .join('\n');
                               },
                             ),
                           ],
@@ -551,14 +631,17 @@ ${_ctaController.text}''';
                         const SizedBox(height: 8),
                         Text(
                           'The exact on-screen visual actions viewers watch you perform.',
-                          style: theme.textTheme.bodySmall?.copyWith(color: AppColors.darkTextMuted),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkTextMuted,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         TextFormField(
                           controller: _demoController,
                           maxLines: 4,
                           decoration: const InputDecoration(
-                            hintText: 'Step-by-step visual demonstration directions...',
+                            hintText:
+                                'Step-by-step visual demonstration directions...',
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -579,18 +662,28 @@ ${_ctaController.text}''';
                           children: [
                             const Text('📝', style: TextStyle(fontSize: 20)),
                             const SizedBox(width: 8),
-                            const Text('Full Teleprompter Script', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            const Text(
+                              'Full Teleprompter Script',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
                             const Spacer(),
                             Text(
                               '$_calculatedWordCount words',
-                              style: theme.textTheme.bodySmall?.copyWith(color: AppColors.accentGold),
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: AppColors.accentGold,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'The verbatim script read on camera or narrated as voiceover.',
-                          style: theme.textTheme.bodySmall?.copyWith(color: AppColors.darkTextMuted),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkTextMuted,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         TextFormField(
@@ -619,7 +712,13 @@ ${_ctaController.text}''';
                           children: const [
                             Text('📣', style: TextStyle(fontSize: 20)),
                             SizedBox(width: 8),
-                            Text('Call To Action (CTA)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            Text(
+                              'Call To Action (CTA)',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
@@ -630,19 +729,22 @@ ${_ctaController.text}''';
                             ActionChip(
                               label: const Text('Follow for daily tricks'),
                               onPressed: () {
-                                _ctaController.text = 'Follow @TechTreasure for more daily tech discoveries!';
+                                _ctaController.text =
+                                    'Follow @TechTreasure for more daily tech discoveries!';
                               },
                             ),
                             ActionChip(
                               label: const Text('Save for later'),
                               onPressed: () {
-                                _ctaController.text = 'Save this reel right now so you don\'t forget when you need it!';
+                                _ctaController.text =
+                                    'Save this reel right now so you don\'t forget when you need it!';
                               },
                             ),
                             ActionChip(
                               label: const Text('Share with friend'),
                               onPressed: () {
-                                _ctaController.text = 'Share this with someone whose phone is always running out of storage!';
+                                _ctaController.text =
+                                    'Share this with someone whose phone is always running out of storage!';
                               },
                             ),
                           ],
@@ -670,15 +772,28 @@ ${_ctaController.text}''';
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.rocket_launch_rounded, color: AppColors.accentGold),
+                            const Icon(
+                              Icons.rocket_launch_rounded,
+                              color: AppColors.accentGold,
+                            ),
                             const SizedBox(width: 8),
-                            const Text('Publication & Analytics', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            const Text(
+                              'Publication & Analytics',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
                             const Spacer(),
                             if (_existingContent != null)
                               TextButton.icon(
-                                icon: const Icon(Icons.add_chart_rounded, size: 16),
+                                icon: const Icon(
+                                  Icons.add_chart_rounded,
+                                  size: 16,
+                                ),
                                 label: const Text('Log Metrics'),
-                                onPressed: () => _showAddMetricsDialog(_existingContent!.id),
+                                onPressed: () =>
+                                    _showAddMetricsDialog(_existingContent!.id),
                               ),
                           ],
                         ),
@@ -686,7 +801,8 @@ ${_ctaController.text}''';
                         TextFormField(
                           controller: _platformUrlController,
                           decoration: const InputDecoration(
-                            hintText: 'https://youtube.com/shorts/... or https://tiktok.com/@...',
+                            hintText:
+                                'https://youtube.com/shorts/... or https://tiktok.com/@...',
                             labelText: 'Live Video URL',
                             prefixIcon: Icon(Icons.link_rounded),
                             border: OutlineInputBorder(),
@@ -696,7 +812,9 @@ ${_ctaController.text}''';
                           const SizedBox(height: 16),
                           Consumer(
                             builder: (context, ref, _) {
-                              final metricsAsync = ref.watch(metricsForContentProvider(_existingContent!.id));
+                              final metricsAsync = ref.watch(
+                                metricsForContentProvider(_existingContent!.id),
+                              );
                               return metricsAsync.when(
                                 loading: () => const SizedBox.shrink(),
                                 error: (_, _) => const SizedBox.shrink(),
@@ -704,7 +822,10 @@ ${_ctaController.text}''';
                                   if (metrics.isEmpty) {
                                     return Text(
                                       'No performance metrics logged yet. Tap "Log Metrics" once your video has been live for 24-48 hours.',
-                                      style: theme.textTheme.bodySmall?.copyWith(color: AppColors.darkTextMuted),
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            color: AppColors.darkTextMuted,
+                                          ),
                                     );
                                   }
 
@@ -714,20 +835,43 @@ ${_ctaController.text}''';
                                     decoration: BoxDecoration(
                                       color: AppColors.darkSurface,
                                       borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: AppColors.darkBorder),
+                                      border: Border.all(
+                                        color: AppColors.darkBorder,
+                                      ),
                                     ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text('Latest Performance Snapshot', style: theme.textTheme.labelMedium?.copyWith(color: AppColors.accentGold)),
+                                        Text(
+                                          'Latest Performance Snapshot',
+                                          style: theme.textTheme.labelMedium
+                                              ?.copyWith(
+                                                color: AppColors.accentGold,
+                                              ),
+                                        ),
                                         const SizedBox(height: 8),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
                                           children: [
-                                            _MetricPill(label: 'Views', value: '${latest.views}'),
-                                            _MetricPill(label: 'Likes', value: '${latest.likes}'),
-                                            _MetricPill(label: 'Saves', value: '${latest.saves}'),
-                                            _MetricPill(label: 'Eng. Rate', value: '${latest.engagementRate.toStringAsFixed(1)}%'),
+                                            _MetricPill(
+                                              label: 'Views',
+                                              value: '${latest.views}',
+                                            ),
+                                            _MetricPill(
+                                              label: 'Likes',
+                                              value: '${latest.likes}',
+                                            ),
+                                            _MetricPill(
+                                              label: 'Saves',
+                                              value: '${latest.saves}',
+                                            ),
+                                            _MetricPill(
+                                              label: 'Eng. Rate',
+                                              value:
+                                                  '${latest.engagementRate.toStringAsFixed(1)}%',
+                                            ),
                                           ],
                                         ),
                                       ],
@@ -762,11 +906,16 @@ class _MetricPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Text(
+          value,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
         const SizedBox(height: 2),
-        Text(label, style: const TextStyle(fontSize: 11, color: AppColors.darkTextMuted)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 11, color: AppColors.darkTextMuted),
+        ),
       ],
     );
   }
 }
-

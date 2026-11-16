@@ -16,4 +16,3 @@ class CategoryEntity {
     required this.createdAt,
   });
 }
-
